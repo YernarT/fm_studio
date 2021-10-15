@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{% load static %}
+
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+			integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+			crossorigin="anonymous"
+		/>
+
+		<!-- Favicon -->
+		<link
+			rel="shortcut icon"
+			href="{% static 'img/common/logo.png' %}"
+			type="image/x-icon"
+		/>
+
+		<title>{% block title %}{% endblock title %}</title>
+
+		{% block externalCSS %}{% endblock externalCSS %}
+	</head>
+	<body>
+		{% block bodyContent %}{% endblock bodyContent %}
+
+		{% comment %} {% if not user.is_authenticated %} {% endcomment %}
+
+		{% block externalJS %}{% endblock externalJS %}
+	</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %} 
+
+{% block title %}FM Studio{% endblock title %}
+
+{% load static %} 
+
+{% comment %} CSS ↓ {% endcomment %}
+{% block externalCSS %}
+
+{% endblock externalCSS %} 
+
+
+{% comment %} HTML ↓ {% endcomment %}
+{% block bodyContent %}
+
+{% endblock bodyContent %}
+
+
+{% comment %} JS ↓ {% endcomment %}
+{% block externalJS %}
+<script>
+    {% comment %} $(".add-cart").click(function () {
+        if ("{{ user.is_authenticated }}" == "False") {
+            alert("вы еще не войти!");
+            return 0;
+        }
+
+        var pizza_id = $(this).attr("pizza_id");
+        var csrf_token = $("input[name='csrf_token']").val();
+
+        var params = { "do": "add-cart", "pizza_id": pizza_id, "csrfmiddlewaretoken": csrf_token };
+
+        $.ajax({
+            type: "POST",
+            data: params,
+
+            success: function (data) {
+                alert("Был успешно добавлен в корзину！");
+            }
+        });
+    }); {% endcomment %}
+</script>
+{% endblock externalJS %}
