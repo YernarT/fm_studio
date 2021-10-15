@@ -1,25 +1,21 @@
-# from django.shortcuts import render, redirect
-# from django.urls import reverse
-# from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http import HttpResponse, JsonResponse
 
-# from django.views.generic import View
+from django.views.generic import View
 
-# from utils.mixin import LoginRequiredMixin
+from utils.mixins import LoginRequiredMixin
 
 # from user.models import *
-# from pizza.models import *
+# from music.models import *
 
-# class IndexView(View):
+class IndexView(View):
     
-#     def get(self, request):
-#         pizzas = Pizza.objects.all()
+    def get(self, request):
 
-#         context = {
-#             'this_page': 'index',
-#             'pizzas': pizzas,
-#         }
+        context = {}
 
-#         return render(request, 'pizza/index.html', context=context)
+        return render(request, 'music/index.html', context=context)
 
 #     def post(self, request):
 #         do = request.POST.get('do')
