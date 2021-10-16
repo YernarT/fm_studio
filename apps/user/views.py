@@ -1,14 +1,14 @@
-# from django.shortcuts import render, redirect
-# from django.urls import reverse
-# from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http import HttpResponse, JsonResponse
 
-# from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.hashers import check_password, make_password
 
-# from django.views.generic import View
+from django.views.generic import View
 
 
-# from utils.mixin import LoginRequiredMixin
+from utils.mixins import LoginRequiredMixin
 
 # from user.models import *
 # from pizza.models import *
@@ -66,11 +66,11 @@
 #         return redirect(reverse('user:log'))
 
 
-# class LogoutView(View):
-#     def get(self, request):
-#         logout(request)
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
 
-#         return redirect(reverse('pizza:index'))
+        return redirect(reverse('music:index'))
 
 
 # class UserInfoView(LoginRequiredMixin, View):

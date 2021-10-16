@@ -6,7 +6,7 @@ urlpatterns = [
 
     # url(r'^log$', LoginView.as_view(), name='log'),
     # url(r'^reg$', RegisterView.as_view(), name='reg'),
-    # url(r'^logoutg$', LogoutView.as_view(), name='logout'),
+    url(r'^logoutg$', LogoutView.as_view(), name='logout'),
 
 ]
 
