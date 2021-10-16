@@ -14,13 +14,10 @@ from utils.mixins import LoginRequiredMixin
 # from pizza.models import *
 
 
-# class LoginView(View):
-#     def get(self, request):
-#         context = {
-#             'this_page': 'log',
-#         }
+class LoginView(View):
+    def get(self, request):
 
-#         return render(request, 'user/log.html', context=context)
+        return render(request, 'user/auth/log.html')
 
 #     def post(self, request):
 #         username = request.POST.get('username')
@@ -39,13 +36,10 @@ from utils.mixins import LoginRequiredMixin
 #             return render(request, 'user/log.html', {'errmsg': 'Неверное имя пользователя или пароль!'})
 
 
-# class RegisterView(View):
-#     def get(self, request):
-#         context = {
-#             'this_page': 'reg',
-#         }
+class RegisterView(View):
+    def get(self, request):
 
-#         return render(request, 'user/reg.html', context=context)
+        return render(request, 'user/auth/reg.html')
 
 #     def post(self, request):
 #         username = request.POST.get('username')

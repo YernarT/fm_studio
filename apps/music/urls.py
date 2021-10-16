@@ -6,7 +6,9 @@ urlpatterns = [
 
     # url(r'^detail/(?P<pizza_id>\d+)$', DetailView.as_view(), name='detail'),
 
-    # url(r'^search$', SearchView.as_view(), name='search'),
+    url(r'^search$', SearchView.as_view(), name='search'),
+    
+    url(r'^leaderboard$', LeaderboardView.as_view(), name='leaderboard'),
 ]
 
 app_name = 'music'

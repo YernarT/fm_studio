@@ -59,9 +59,9 @@ class IndexView(View):
 #             return JsonResponse({'res': res}, status=200)
     
 
-# class SearchView(View):
-#     def get(self, request):
-#         search_text = request.GET.get('search_text')
+class SearchView(View):
+    def get(self, request):
+        # search_text = request.GET.get('search_text')
         
 #         pizzas = []
 
@@ -74,4 +74,10 @@ class IndexView(View):
 #             'pizzas': pizzas,
 #         }
 
-#         return render(request, 'pizza/search.html', context=context)
+        return render(request, 'music/search.html')
+
+
+class LeaderboardView(View):
+    def get(self, request):
+        
+        return render(request, 'music/leaderborad.html')
