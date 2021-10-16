@@ -9,4 +9,4 @@ urlpatterns = [
     # url(r'^search$', SearchView.as_view(), name='search'),
 ]
 
-app_name = 'pizza'
+app_name = 'music'
