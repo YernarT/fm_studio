@@ -28,3 +28,15 @@ class Music(models.Model):
         return f'{self.name}'
 
 
+class Comment(models.Model):
+    content = models.CharField(max_length=255, verbose_name='пікір')
+    music = models.ForeignKey(to='Music', on_delete=models.CASCADE, verbose_name='музыка')
+    user = models.ForeignKey(to='user.User', on_delete=models.CASCADE, verbose_name='пайдаланушы')
+
+    class Meta:
+        db_table = 'comment'
+        verbose_name = 'пікір'
+        verbose_name_plural = 'пікірлер'
+
+    def __str__(self):
+        return f'{self.content}'
