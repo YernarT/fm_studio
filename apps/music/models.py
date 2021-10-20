@@ -17,6 +17,8 @@ class Music(models.Model):
     name = models.CharField(max_length=40, verbose_name='музыка атауы')
     music = models.FileField(upload_to='audio/', verbose_name='музыка файлы')
     music_type = models.ManyToManyField(to='MusicType', related_name='music_types', verbose_name='мазыка жанры')
+    like = models.IntegerField(default=0, verbose_name='лайк саны')
+    views = models.IntegerField(default=0, verbose_name='есту саны')
 
 
     class Meta:
