@@ -1,0 +1,127 @@
+.home-page section[class*="welcome"] .parallax {
+	height: 500px;
+}
+
+.home-page section[class*="welcome"] .parallax img,
+.home-page section[class*="welcome"] .parallax .solid-shape,
+.home-page section[class*="welcome"] .parallax .hollow-shape {
+	border-radius: 50%;
+	position: absolute;
+}
+
+.home-page section[class*="welcome"] .parallax img {
+	object-fit: cover;
+}
+
+.home-page section[class*="welcome"] .parallax img:nth-child(1),
+.home-page section[class*="welcome"] .parallax img:nth-child(2) {
+	width: 155px;
+	height: 155px;
+
+	z-index: 2;
+}
+
+.home-page section[class*="welcome"] .parallax img:nth-child(1) {
+	top: 0;
+	right: 25px;
+}
+
+.home-page section[class*="welcome"] .parallax img:nth-child(2) {
+	bottom: 0;
+	left: 0;
+}
+
+.home-page section[class*="welcome"] .parallax img:nth-child(3) {
+	width: 230px;
+	height: 230px;
+
+	top: 20%;
+	left: 20%;
+	z-index: 4;
+}
+
+.home-page section[class*="welcome"] .parallax img:nth-child(4) {
+	width: 260px;
+	height: 260px;
+
+	bottom: 20px;
+	right: 20px;
+	z-index: 4;
+}
+
+.home-page section[class*="welcome"] .parallax .solid-shape {
+	background: #404060;
+	box-shadow: 0 0 10px #3b3b68;
+}
+
+.home-page section[class*="welcome"] .parallax .solid-shape:nth-child(5),
+.home-page section[class*="welcome"] .parallax .solid-shape:nth-child(6) {
+	width: 135px;
+	height: 135px;
+
+	z-index: 3;
+}
+
+.home-page section[class*="welcome"] .parallax .solid-shape:nth-child(5) {
+	bottom: 105px;
+	left: 95px;
+}
+
+.home-page section[class*="welcome"] .parallax .solid-shape:nth-child(6) {
+	top: 35%;
+	right: 25px;
+}
+
+.home-page section[class*="welcome"] .parallax .solid-shape:nth-child(7) {
+	width: 165px;
+	height: 165px;
+
+	top: 70px;
+	left: 51.5%;
+}
+
+.home-page section[class*="welcome"] .parallax .solid-shape:nth-child(8) {
+	width: 200px;
+	height: 200px;
+
+	bottom: 50px;
+	left: 35%;
+}
+
+.home-page section[class*="welcome"] .parallax .hollow-shape {
+	border: 1px solid rgba(238, 238, 238, 0.25);
+
+	z-index: 1;
+}
+
+.home-page section[class*="welcome"] .parallax .hollow-shape:nth-child(9) {
+	width: 240px;
+	height: 240px;
+
+	bottom: 50px;
+	left: 25px;
+}
+
+.home-page section[class*="welcome"] .parallax .hollow-shape:nth-child(10) {
+	width: 275px;
+	height: 275px;
+
+	bottom: 0;
+	right: 0;
+}
+
+.home-page section[class*="welcome"] .parallax .hollow-shape:nth-child(11) {
+	width: 275px;
+	height: 275px;
+
+	top: 25px;
+	right: 50px;
+}
+
+.home-page section[class*="welcome"] .parallax .hollow-shape:nth-child(12) {
+	width: 315px;
+	height: 315px;
+
+	top: 25px;
+	left: 25px;
+}

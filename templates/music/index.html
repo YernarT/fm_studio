@@ -6,14 +6,56 @@
 
 {% comment %} CSS ↓ {% endcomment %}
 {% block externalCSS %}
-
+<link rel="stylesheet" href="{% static 'style/music/index.css' %}">
 {% endblock externalCSS %} 
 
 
 {% comment %} HTML ↓ {% endcomment %}
 {% block bodyContent %}
-<div>
-    <h1>Index page</h1>
+<div class="home-page">
+    <section class="d-flex align-items-center position-relative bg-dark min-vh-100 overflow-hidden pt-6 pb-lg-5 welcome" >
+        <div class="container pt-4 pb-5 py-lg-5">
+          <div class="row align-items-center py-3">
+            <div class="col-xl-6 col-lg-5 d-flex justify-content-end">
+              <div class="pt-2 mx-auto mb-5 mb-lg-0 ms-lg-0 me-xl-7 text-center text-lg-start">
+                <h1 class="display-4 text-light pb-2"><span class="fw-light">Listen </span>up!</h1>
+                <p class="h4 fw-light text-light opacity-70 line-height-base">Мұнда сіз естігіңіз келетін барлық нәрсені таба аласыз.</p>
+                <hr class="hr-light mt-0 mb-5">
+                <div class="row">
+                  <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div class="h1 text-light mb-1">3.2k +</div>
+                    <div class="h5 text-light fw-normal opacity-70 mb-2">музыка</div>
+                  </div>
+                  <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div class="h1 text-light mb-1">639</div>
+                    <div class="h5 text-light fw-normal opacity-70 mb-1">пайдаланушы</div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="h1 text-light mb-1">200k +</div>
+                    <div class="h5 text-light fw-normal opacity-70 mb-1">музыка ойналған саны</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-7 d-none d-md-block">
+              <div class="parallax ms-lg-n5 position-relative">
+                <img src="{% static 'img/music/welcome-section-img1.webp' %}" alt="Layer">
+                <img src="{% static 'img/music/welcome-section-img2.jpg' %}" alt="Layer">
+                <img src="{% static 'img/music/welcome-section-img3.jpg' %}" alt="Layer">
+                <img src="{% static 'img/music/welcome-section-img4.jpg' %}" alt="Layer">
+                <div class="solid-shape"></div>
+                <div class="solid-shape"></div>
+                <div class="solid-shape"></div>
+                <div class="solid-shape"></div>
+                <div class="hollow-shape"></div>
+                <div class="hollow-shape"></div>
+                <div class="hollow-shape"></div>
+                <div class="hollow-shape"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 </div>
 {% endblock bodyContent %}
 
@@ -21,7 +63,8 @@
 {% comment %} JS ↓ {% endcomment %}
 {% block externalJS %}
 <script>
-    {% comment %} $(".add-cart").click(function () {
+    {% comment %} 
+    $(".add-cart").click(function () {
         if ("{{ user.is_authenticated }}" == "False") {
             alert("вы еще не войти!");
             return 0;
@@ -40,6 +83,7 @@
                 alert("Был успешно добавлен в корзину！");
             }
         });
-    }); {% endcomment %}
+    }); 
+    {% endcomment %}
 </script>
 {% endblock externalJS %}
