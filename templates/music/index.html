@@ -19,7 +19,9 @@
             <div class="col-xl-6 col-lg-5 d-flex justify-content-end">
               <div class="pt-2 mx-auto mb-5 mb-lg-0 ms-lg-0 me-xl-7 text-center text-lg-start">
                 <h1 class="display-4 text-light pb-2"><span class="fw-light">Listen </span>up!</h1>
-                <p class="h4 fw-light text-light opacity-70 line-height-base">Мұнда сіз естігіңіз келетін барлық нәрсені таба аласыз.</p>
+                <p class="h4 fw-light text-light opacity-70 line-height-base">
+                  Мұнда сіз естігіңіз келетін барлық нәрсені таба аласыз.
+                </p>
                 <hr class="hr-light mt-0 mb-5">
                 <div class="row">
                   <div class="col-sm-4 mb-4 mb-sm-0">
@@ -62,28 +64,4 @@
 
 {% comment %} JS ↓ {% endcomment %}
 {% block externalJS %}
-<script>
-    {% comment %} 
-    $(".add-cart").click(function () {
-        if ("{{ user.is_authenticated }}" == "False") {
-            alert("вы еще не войти!");
-            return 0;
-        }
-
-        var pizza_id = $(this).attr("pizza_id");
-        var csrf_token = $("input[name='csrf_token']").val();
-
-        var params = { "do": "add-cart", "pizza_id": pizza_id, "csrfmiddlewaretoken": csrf_token };
-
-        $.ajax({
-            type: "POST",
-            data: params,
-
-            success: function (data) {
-                alert("Был успешно добавлен в корзину！");
-            }
-        });
-    }); 
-    {% endcomment %}
-</script>
 {% endblock externalJS %}
