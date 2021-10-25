@@ -63,3 +63,11 @@
 ### 首页
 
 <img src="./result_img/index_page_src.jpeg" alt="index_page_scr" />
+
+### 登录页面
+
+<img src="./result_img/login_page_src.jfif" alt="index_page_scr" />
+
+### 注册页面
+
+<img src="./result_img/register_page_src.jfif" alt="index_page_scr" />
