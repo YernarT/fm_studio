@@ -16,28 +16,33 @@ from utils.mixins import LoginRequiredMixin
 
 class LoginView(View):
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect(request.GET.get('next') or reverse('music:index'))
 
         return render(request, 'user/auth/log.html')
 
-#     def post(self, request):
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
+    def post(self, request):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-#         user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            
+            return redirect(request.GET.get('next') or reverse('music:index'))
+        else:
+            context = {
+                'code': 2,
+                'msg': 'Неверное имя пользователя или пароль!'
+            }
 
-#         if user is not None:
-#             login(request, user)
-
-#             next_url = request.GET.get('next', reverse('pizza:index'))
-#             response = redirect(next_url)
-
-#             return response
-#         else:
-#             return render(request, 'user/log.html', {'errmsg': 'Неверное имя пользователя или пароль!'})
+            return render(request, 'user/auth/log.html', context=context)
 
 
 class RegisterView(View):
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect(request.GET.get('next') or reverse('music:index'))
 
         return render(request, 'user/auth/reg.html')
 
