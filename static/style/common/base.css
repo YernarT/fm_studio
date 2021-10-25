@@ -16,3 +16,11 @@
 	left: auto !important;
 	right: 0 !important;
 }
+
+#alertMsgContainer {
+	position: fixed;
+	top: 80px;
+	left: 50%;
+
+	transform: translateX(-50%);
+}
