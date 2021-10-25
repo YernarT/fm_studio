@@ -33,7 +33,7 @@ class LoginView(View):
         else:
             context = {
                 'code': 2,
-                'msg': 'Неверное имя пользователя или пароль!'
+                'msg': 'Пайдаланушы аты немесе құпия сөз дұрыс емес!'
             }
 
             return render(request, 'user/auth/log.html', context=context)
