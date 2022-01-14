@@ -1,9 +1,23 @@
+/* base.html styles */
+
+#app {
+	width: 100%;
+	height: 100vh;
+
+	overflow: hidden;
+}
+
 .base {
 	width: 100%;
 	height: 100%;
 }
 
-#base__navbarScrollingDropdown > [alt="avatar"] {
+.base__content {
+	height: 100%;
+	overflow: hidden auto;
+}
+
+#base__navbarScrollingDropdown > [alt='avatar'] {
 	width: 46px;
 	height: 46px;
 
