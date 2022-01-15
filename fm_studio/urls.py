@@ -9,7 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     url(r'^user/', include('user.urls', namespace='user')),
-    url(r'^', include('music.urls', namespace='music')),
+    url(r'^music/', include('music.urls', namespace='music')),
 
-    url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
+    url(r'^media/(?P<path>.*)$', serve,
+        {"document_root": settings.MEDIA_ROOT}),
 ]
