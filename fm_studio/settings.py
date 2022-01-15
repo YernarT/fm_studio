@@ -29,11 +29,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'fm_studio.urls'
 
@@ -81,11 +82,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'user.User'
+LANGUAGE_CODE = 'kk'
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 
@@ -101,8 +100,5 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os_path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-# LOGIN_URL = '/user/log'
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
