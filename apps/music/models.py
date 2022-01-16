@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import User
 
 
 class MusicType(models.Model):
@@ -18,6 +19,8 @@ class Music(models.Model):
     music = models.FileField(upload_to='audio/', verbose_name='музыка файлы')
     music_type = models.ManyToManyField(
         to='MusicType', related_name='music_types', verbose_name='мазыка жанры')
+    auhtor = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, verbose_name='авторы')
     views = models.IntegerField(default=0, verbose_name='есту саны')
     create_time = models.DateTimeField(
         auto_now_add=True, verbose_name='құрылған уақыт')
