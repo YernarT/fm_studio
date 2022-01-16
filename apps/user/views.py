@@ -1,75 +1,125 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-
-from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.hashers import check_password, make_password
-
 from django.views.generic import View
+from django.contrib.auth.hashers import check_password, make_password
 
+from fm_studio import settings
 
-from utils.mixins import LoginRequiredMixin
-
-# from user.models import *
-# from pizza.models import *
+from user.models import User
+from utils.auth import generate_token, verify_token
+from utils.data import verify_data, get_data
 
 
 class LoginView(View):
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect(request.GET.get('next') or reverse('music:index'))
-
-        return render(request, 'user/auth/log.html')
 
     def post(self, request):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        data = get_data(request)
+        phone = data.get('phone')
+        password = data.get('password')
 
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            
-            return redirect(request.GET.get('next') or reverse('music:index'))
-        else:
-            context = {
-                'code': 2,
-                'msg': 'Пайдаланушы аты немесе құпия сөз дұрыс емес!'
+        verify_list = [
+            verify_data(phone, min_length=11, max_length=11, data_type=str,
+                        error_messages={'required': 'телефон нөмер болу керек',
+                                        'min_length': 'телефон нөмер 11 орынды болу керек',
+                                        'max_length': 'телефон нөмер 11 орынды болу керек',
+                                        'data_type': 'телефон нөмер string типынде болу керек'
+                                        }),
+            verify_data(password, min_length=4, max_length=64, data_type=str,
+                        error_messages={'required': 'құпия сөз болу керек',
+                                        'min_length': 'құпия сөз 4 орыннан аз болмау керек',
+                                        'max_length': 'құпия сөз 64 орыннан көп болмау керек',
+                                        'data_type': 'құпия сөз string типынде болу керек'
+                                        })]
+
+        for is_valid, error_message in verify_list:
+            if not is_valid:
+                return JsonResponse({'messgae': error_message}, status=400)
+
+        try:
+            user = User.objects.get(phone=phone)
+        except User.DoesNotExist:
+            return JsonResponse({'messgae': 'авторизация сәтсіз болды'}, status=400)
+
+        if check_password(password, user.password):
+            token = generate_token(user.id)
+
+            user_obj = {
+                'id': user.id,
+                'username': user.username,
+                'phone': user.phone,
+                'is_admin': user.is_admin,
+                'birthday': user.birthday,
+                'gender': user.gender,
+                'avatar': request.get_host()+settings.MEDIA_URL+str(user.avatar),
+                'create_time': user.create_time
             }
 
-            return render(request, 'user/auth/log.html', context=context)
+            return JsonResponse({'message': 'авторизация сәтті болды', 'data': {
+                'token': token,
+                'user': user_obj
+            }}, status=200)
+
+        return JsonResponse({'messgae': 'авторизация сәтсіз болды'}, status=400)
 
 
 class RegisterView(View):
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect(request.GET.get('next') or reverse('music:index'))
 
-        return render(request, 'user/auth/reg.html')
+    def post(self, request):
+        data = get_data(request)
+        phone = data.get('phone')
+        password = data.get('password')
+        is_admin = data.get('is_admin')
 
-#     def post(self, request):
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
+        verify_list = [
+            verify_data(phone, min_length=11, max_length=11, data_type=str,
+                        error_messages={'required': 'телефон нөмер болу керек',
+                                        'min_length': 'телефон нөмер 11 орынды болу керек',
+                                        'max_length': 'телефон нөмер 11 орынды болу керек',
+                                        'data_type': 'телефон нөмер string типынде болу керек'
+                                        }),
+            verify_data(password, min_length=4, max_length=64, data_type=str,
+                        error_messages={'required': 'құпия сөз болу керек',
+                                        'min_length': 'құпия сөз 4 орыннан аз болмау керек',
+                                        'max_length': 'құпия сөз 64 орыннан көп болмау керек',
+                                        'data_type': 'құпия сөз string типынде болу керек'
+                                        })]
 
-#         try:
-#             user = User.objects.get(username=username)
-#         except User.DoesNotExist:
-#             user = None
+        for is_valid, error_message in verify_list:
+            if not is_valid:
+                return JsonResponse({'messgae': error_message}, status=400)
 
-#         if user:
-#             return render(request, 'user/reg.html', {'errmsg': 'Имя пользователя уже существует!'})
+        try:
+            user = User.objects.get(phone=phone)
+        except User.DoesNotExist:
+            user = None
 
-#         user = User.objects.create_user(username, password)
-#         user.password = make_password(password)
-#         user.save()
+        if user:
+            return JsonResponse({'messgae': 'телефон нөмер тіркелген'}, status=400)
 
-#         return redirect(reverse('user:log'))
+        # to create admin
+        if is_admin:
+            is_valid, error_message = verify_data(is_admin, data_type=bool, required=False,
+                                                  error_messages={'data_type': 'is_admin өрісі bool тиынде болу керек'})
 
+            if not is_valid:
+                return JsonResponse({'message': error_message}, status=400)
 
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
+            # check request.user(request originator) is admin
+            token_correct, response = verify_token(request)
 
-        return redirect(reverse('music:index'))
+            if token_correct and response.get('data').get('user').get('is_admin'):
+                new_user = User.objects.create(
+                    phone=phone, password=make_password(password, settings.SECRET_KEY), is_admin=is_admin)
+            else:
+                return JsonResponse({'messgae': 'админды құру үшін админ болу керек'}, status=400)
+        else:
+            new_user = User.objects.create(
+                phone=phone, password=make_password(password, settings.SECRET_KEY))
+
+        # new_user.save()
+
+        print(new_user.password)
+
+        return JsonResponse({'message': 'сәтті тіркелді', 'data': {}}, status=201)
 
 
 # class UserInfoView(LoginRequiredMixin, View):
@@ -111,7 +161,7 @@ class LogoutView(View):
 #                     })
 #                 except:
 #                     user.username = username
-                
+
 #             if password != '':
 #                 user.password = make_password(password)
 
