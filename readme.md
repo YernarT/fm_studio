@@ -1,16 +1,6 @@
 # Django3 + Vue3 全栈项目 (音乐平台)
 
-> 某同学的毕业设计作品, 想写一个 Django 全栈的项目, 回忆一下大二时候的自己.
-
-> 因为时间关系暂时只做了部分功能, 但是有空会继续更新的
-
----
-
-## 项目配置
-
-- Python 3.9.6
-- Django 3.2.8
-- SQLite3
+> 同学的毕业设计作品, 只做了部分功能且代码相对朴素
 
 ---
 
@@ -32,7 +22,7 @@
 
 ## 技术栈
 
-### 前端: Vue3, Bootstrap5
+### 前端: Vue3
 
 ### 后端: Django3
 
@@ -54,7 +44,27 @@
 
 ### 在线演示地址: xxx.html
 
-### github 地址: hhttps://github.com/YernarT/fm_studio
+### github 地址: https://github.com/YernarT/fm_studio
+
+---
+
+## 开发 & 维护 需知
+
+Django 自带的用户表 (table) 仅用于 开发者使用
+
+网站管理员, 这里假设是网站购买者, 持有者以及普通用户的账户信息都在 user 模块里的 User 模型指定的 table 里保存
+
+### 开发 & 生产模式流程:
+
+1. 服务上线
+2. migrate Django 自带的 tables
+3. makemigration 所有 app 的 models
+4. migrate 所有 app 的 models
+5. 通过 manage.py create_superuser 创建 admin
+
+   create_superuser 创建的用户保存在 django_auth_user 表中, 再通过 这个用户登录 django-admin 站点
+
+   在自定义的 User 表中创建一个 is_admin 为真的用户作为网站持有者
 
 ---
 
