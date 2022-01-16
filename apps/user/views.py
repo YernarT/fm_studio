@@ -110,16 +110,27 @@ class RegisterView(View):
                 new_user = User.objects.create(
                     phone=phone, password=make_password(password, settings.SECRET_KEY), is_admin=is_admin)
             else:
-                return JsonResponse({'messgae': 'админды құру үшін админ болу керек'}, status=400)
+                return JsonResponse({'messgae': 'админды құру үшін админ болу керек'}, status=401)
         else:
             new_user = User.objects.create(
                 phone=phone, password=make_password(password, settings.SECRET_KEY))
 
-        # new_user.save()
+        token = generate_token(new_user.id)
+        user_obj = {
+            'id': new_user.id,
+            'username': new_user.username,
+            'phone': new_user.phone,
+            'is_admin': new_user.is_admin,
+            'birthday': new_user.birthday,
+            'gender': new_user.gender,
+            'avatar': request.get_host()+settings.MEDIA_URL+str(new_user.avatar),
+            'create_time': new_user.create_time
+        }
 
-        print(new_user.password)
-
-        return JsonResponse({'message': 'сәтті тіркелді', 'data': {}}, status=201)
+        return JsonResponse({'message': 'тіркелу сәтті болды', 'data': {
+            'token': token,
+            'user': user_obj
+        }}, status=201)
 
 
 # class UserInfoView(LoginRequiredMixin, View):
