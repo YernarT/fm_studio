@@ -1,15 +1,25 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "useDefineForClassFields": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["esnext", "dom"]
-  },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+	"compilerOptions": {
+		"baseUrl": "./",
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"useDefineForClassFields": true,
+		"strict": true,
+		"jsx": "preserve",
+		"sourceMap": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"lib": ["esnext", "dom"],
+		"paths": {
+			"@/*": ["src/*"],
+			"pages/*": ["src/pages/*"],
+			"components/*": ["src/components/*"],
+			"assets/*": ["src/assets/*"],
+			"store/*": ["src/store/*"],
+			"configs/*": ["src/configs/*"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"exclude": ["node_modules", "dist", "**/*.js"]
 }
