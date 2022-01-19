@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "vue": "^3.2.25",
-    "vue-router": "^3.5.3"
+    "vue-router": "4.0.4",
+    "vuex": "4"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.15.1",
+    "@types/node": "^17.0.10",
     "@vitejs/plugin-vue": "^2.0.0",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
