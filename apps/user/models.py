@@ -1,11 +1,10 @@
-from datetime import datetime
 from django.db import models
 from datetime import datetime
 
 
 class User(models.Model):
-    username = models.CharField(max_length=24, verbose_name='атау', default='user_' + datetime.strftime(
-        datetime.now(), '%Y%m%d%H'))
+    username = models.CharField(max_length=24, default='user_' + datetime.strftime(
+        datetime.now(), '%Y%m%d%H'), verbose_name='атау')
     phone = models.CharField(max_length=11, unique=True,
                              verbose_name='телефон нөмер')
     password = models.CharField(max_length=60, verbose_name='құпия сөз')
@@ -15,7 +14,7 @@ class User(models.Model):
     birthday = models.DateField(
         null=True, blank=True, verbose_name='туған күн')
     gender = models.BooleanField(
-        choices=((True, 'Ер'), (False, 'Әйел')), default=0, blank=False, verbose_name='жыныс')
+        choices=((True, 'Ер'), (False, 'Әйел')), default=False, blank=False, verbose_name='жыныс')
     avatar = models.ImageField(upload_to='img/user/avatar/',
                                default='img/user/avatar/default-avatar.png', blank=False, verbose_name='аватар')
     create_time = models.DateTimeField(
