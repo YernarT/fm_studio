@@ -13,6 +13,9 @@
 	height: 100vh;
 	overflow: hidden;
 	background-color: @backgroundColor;
+
+	display: flex;
+	flex-direction: column;
 }
 </style>
 
