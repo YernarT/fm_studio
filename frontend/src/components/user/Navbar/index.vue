@@ -7,7 +7,9 @@
 		</a-menu>
 
 		<a-input-search placeholder="Іздеу" />
-		<a-button type="text" size="medium">Кіру / Тіркелу</a-button>
+		<a-button type="text" size="medium" class="auth-btn"
+			>Кіру / Тіркелу</a-button
+		>
 	</div>
 </template>
 
@@ -30,6 +32,10 @@
 		height: max-content;
 
 		margin-right: 10px;
+	}
+
+	.auth-btn {
+		background-color: transparent;
 	}
 }
 </style>
