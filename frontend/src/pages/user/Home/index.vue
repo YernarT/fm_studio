@@ -5,20 +5,27 @@
 			<h1>home page</h1>
 		</div>
 	</div>
+	<!-- <MusicPlayer /> -->
+	<BottomNavigationBar />
 </template>
 
 <script setup lang="ts">
 import Navbar from 'components/user/Navbar/index.vue';
+import BottomNavigationBar from 'components/user/BottomNavigationBar/index.vue';
+import MusicPlayer from 'components/user/MusicPlayer/index.vue';
 </script>
 
 <style scoped lang="less">
 .home-page {
-	padding: 20px 40px;
-	padding-right: 10px;
+	padding: 20px 10px 0 40px;
 	height: 100%;
 
+	@media screen and (max-width: 540px) {
+		padding: 0 10px;
+		height: calc(100% - 54px);
+	}
+
 	.page-content {
-		background-color: darkblue;
 		height: 100%;
 	}
 }
