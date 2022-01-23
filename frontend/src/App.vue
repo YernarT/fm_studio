@@ -4,7 +4,12 @@
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { reactive, provide } from 'vue';
+
+const page = reactive({ authModalVisible: false });
+provide('$page', page);
+</script>
 
 <!-- private style -->
 <style scoped lang="less">
