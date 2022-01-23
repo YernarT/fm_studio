@@ -4,18 +4,23 @@
 			class="navbar__menu"
 			mode="horizontal"
 			theme="dark"
-			:default-selected-keys="['0']"
+			:selected-keys="selectedKeys"
+			@menu-item-click="handleMenuItemClick"
 		>
-			<a-menu-item class="menu__item" key="0">Музыкалар</a-menu-item>
-			<a-menu-item class="menu__item" key="1">Менің музыкам</a-menu-item>
-			<a-menu-item class="menu__item" key="2">Көшбасшылар тақтасы</a-menu-item>
+			<a-menu-item class="menu__item" key="/">Музыкалар</a-menu-item>
+			<a-menu-item class="menu__item" key="/my-music">
+				Менің музыкам
+			</a-menu-item>
+			<a-menu-item class="menu__item" key="/leaderboard">
+				Көшбасшылар тақтасы
+			</a-menu-item>
 		</a-menu>
 
 		<div class="navbar__tools">
 			<a-input-search class="desktop-search" placeholder="Іздеу" />
-			<a-button class="auth-btn" type="text" size="medium"
-				>Кіру / Тіркелу</a-button
-			>
+			<a-button class="auth-btn" type="text" size="medium">
+				Кіру / Тіркелу
+			</a-button>
 		</div>
 
 		<a-input-search class="mobile-search" placeholder="Іздеу" />
@@ -27,10 +32,10 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const pathname = router.currentRoute.value.path;
+let selectedKeys = [router.currentRoute.value.path];
 
-function cd(path: string): void {
-	router.push(path);
+function handleMenuItemClick(key: string): void {
+	router.push(key);
 }
 </script>
 
