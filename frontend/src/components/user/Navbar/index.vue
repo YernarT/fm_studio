@@ -17,20 +17,27 @@
 		</a-menu>
 
 		<div class="navbar__tools">
-			<a-input-search class="desktop-search" placeholder="Іздеу" />
-			<a-button class="auth-btn" type="text" size="medium">
+			<a-input-search class="desktop-search" placeholder="Іздеу" allow-clear />
+			<a-button
+				class="auth-btn"
+				@click="page.authModalVisible = true"
+				type="text"
+				size="medium"
+			>
 				Кіру / Тіркелу
 			</a-button>
 		</div>
 
-		<a-input-search class="mobile-search" placeholder="Іздеу" />
+		<a-input-search class="mobile-search" placeholder="Іздеу" allow-clear />
 	</div>
 </template>
 
 <script lang="ts" setup>
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const page = inject('$page', { authModalVisible: false });
 
 let selectedKeys = [router.currentRoute.value.path];
 
