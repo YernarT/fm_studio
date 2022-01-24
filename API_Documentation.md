@@ -96,3 +96,19 @@
 ```
 
 ---
+
+# Edit
+
+用于编辑用户信息
+
+## POST `/user/edit`
+
+### 请求数据
+
+| 字段名     | 描述             | 类型     | 必填    |
+| ---------- | ---------------- | -------- | ------- |
+| `username`    | 用户名         | `string` | `False`  |
+| `phone`    | 电话号码         | `string` | `False`  |
+| `password` | 密码             | `string` | `False`  |
+| `birthday` | 生日             | `string` | `False`  |
+| `gender` | 性别 | `bool`   | `False` |
