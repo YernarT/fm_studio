@@ -1,19 +1,50 @@
 <template>
 	<div class="container navbar">
-		<a-menu mode="horizontal" theme="dark" :default-selected-keys="['0']">
-			<a-menu-item key="0">Музыкалар</a-menu-item>
-			<a-menu-item key="1">Менің музыкам</a-menu-item>
-			<a-menu-item key="2">Көшбасшылар тақтасы</a-menu-item>
+		<a-menu
+			class="navbar__menu"
+			mode="horizontal"
+			theme="dark"
+			:selected-keys="selectedKeys"
+			@menu-item-click="handleMenuItemClick"
+		>
+			<a-menu-item class="menu__item" key="/">Музыкалар</a-menu-item>
+			<a-menu-item class="menu__item" key="/my-music">
+				Менің музыкам
+			</a-menu-item>
+			<a-menu-item class="menu__item" key="/leaderboard">
+				Көшбасшылар тақтасы
+			</a-menu-item>
 		</a-menu>
 
-		<a-input-search placeholder="Іздеу" />
-		<a-button type="text" size="medium" class="auth-btn"
-			>Кіру / Тіркелу</a-button
-		>
+		<div class="navbar__tools">
+			<a-input-search class="desktop-search" placeholder="Іздеу" allow-clear />
+			<a-button
+				class="auth-btn"
+				@click="page.authModalVisible = true"
+				type="text"
+				size="medium"
+			>
+				Кіру / Тіркелу
+			</a-button>
+		</div>
+
+		<a-input-search class="mobile-search" placeholder="Іздеу" allow-clear />
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import { inject } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const page = inject('$page', { authModalVisible: false });
+
+let selectedKeys = [router.currentRoute.value.path];
+
+function handleMenuItemClick(key: string): void {
+	router.push(key);
+}
+</script>
 
 <style lang="less" scoped>
 .navbar {
@@ -22,20 +53,55 @@
 	display: flex;
 	align-items: center;
 
-	.arco-menu,
-	.arco-menu-item {
+	&__menu {
 		background-color: @backgroundColor;
+		.menu__item {
+			background-color: @backgroundColor;
+		}
 	}
 
-	.arco-input-wrapper {
-		width: 200px;
-		height: max-content;
+	&__tools {
+		display: flex;
+		align-items: center;
 
-		margin-right: 10px;
+		@media screen and (max-width: 840px) {
+			margin-top: 20px;
+			margin-left: 40px;
+		}
+
+		.desktop-search {
+			width: 160px;
+
+			@media screen and (max-width: 840px) {
+				width: 295px;
+			}
+		}
+
+		.auth-btn {
+			background-color: transparent;
+		}
 	}
 
-	.auth-btn {
-		background-color: transparent;
+	.mobile-search {
+		display: none;
+
+		@media screen and (max-width: 540px) {
+			display: flex;
+		}
+	}
+
+	@media screen and (max-width: 840px) {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	@media screen and (max-width: 540px) {
+		padding: 10px;
+
+		&__menu,
+		&__tools {
+			display: none;
+		}
 	}
 }
 </style>
