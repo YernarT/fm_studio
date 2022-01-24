@@ -1,12 +1,11 @@
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import JsonResponse
 from fm_studio import settings
 from user.models import User
 from datetime import datetime, timedelta
 from cryptocode import encrypt, decrypt
 
 
-def verify_token(request: WSGIRequest) -> tuple[bool, JsonResponse]:
+def verify_token(request: WSGIRequest):
     token = request.headers.get('X-AUTH-TOKEN', '')
     payload = decrypt(token, settings.SECRET_KEY)
 
@@ -26,15 +25,17 @@ def verify_token(request: WSGIRequest) -> tuple[bool, JsonResponse]:
                 'is_admin': user.is_admin,
                 'birthday': user.birthday,
                 'gender': user.gender,
-                'avatar': request.get_host()+settings.MEDIA_URL+str(user.avatar),
+                'avatar': request.get_host() + settings.MEDIA_URL + str(user.avatar),
                 'create_time': user.create_time
             }
 
-            return True, JsonResponse({'message': 'Verification succeeded', 'data': {'user': user_obj}}, status=200)
+            return True, {'message': 'Verification succeeded', 'data': {'user_attr': user_obj,
+                                                                        'user': user
+                                                                        }}
         else:
-            return False, JsonResponse({'message': 'Token expired'}, status=400)
+            return False, {'message': 'Token expired'}
 
-    return False, JsonResponse({'message': 'Token incorrect'}, status=400)
+    return False, {'message': 'Token incorrect'}
 
 
 def generate_token(id: int) -> str:

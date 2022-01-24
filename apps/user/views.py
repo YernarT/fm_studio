@@ -49,7 +49,7 @@ class LoginView(View):
                 'is_admin': user.is_admin,
                 'birthday': user.birthday,
                 'gender': user.gender,
-                'avatar': request.get_host()+settings.MEDIA_URL+str(user.avatar),
+                'avatar': request.get_host() + settings.MEDIA_URL + str(user.avatar),
                 'create_time': user.create_time
             }
 
@@ -123,7 +123,7 @@ class RegisterView(View):
             'is_admin': new_user.is_admin,
             'birthday': new_user.birthday,
             'gender': new_user.gender,
-            'avatar': request.get_host()+settings.MEDIA_URL+str(new_user.avatar),
+            'avatar': request.get_host() + settings.MEDIA_URL + str(new_user.avatar),
             'create_time': new_user.create_time
         }
 
@@ -133,73 +133,61 @@ class RegisterView(View):
         }}, status=201)
 
 
-# class UserInfoView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         panel = request.GET.get('panel')
+class EditView(View):
 
-#         if panel != 'user_info' and panel != 'cart':
-#             panel = 'user_info'
+    def put(self, request):
 
-#         carts = Cart.objects.filter(user=request.user)
+        is_valid, response_context = verify_token(request)
 
-#         context = {
-#             'this_page': 'user_info',
-#             'panel': panel,
-#             'carts': carts,
-#         }
+        if not is_valid:
+            return JsonResponse({'message': 'авторизация сәтсіз болды'}, stastus=401)
 
-#         return render(request, 'user/user_info.html', context=context)
+        user_current_info = response_context.get('data').get('user_attr')
+        user = response_context.get('data').get('user')
 
-#     def post(self, request):
-#         if 'change_info' in request.POST:
-#             username = request.POST.get('username')
-#             password = request.POST.get('new_password')
+        data = get_data(request)
+        username = data.get("username")
+        phone = data.get("phone")
+        birthday = data.get("birthday")
+        gender = data.get("gender")
+        password = data.get("password")
 
-#             user = request.user
+        verify_list = [
+            verify_data(phone, required=False, min_length=11, max_length=11, data_type=str,
+                        error_messages={'required': 'телефон нөмер болу керек',
+                                        'min_length': 'телефон нөмер 11 орынды болу керек',
+                                        'max_length': 'телефон нөмер 11 орынды болу керек',
+                                        'data_type': 'телефон нөмер string типынде болу керек'
+                                        }),
+            verify_data(password, required=False, min_length=4, max_length=64, data_type=str,
+                        error_messages={'required': 'құпия сөз болу керек',
+                                        'min_length': 'құпия сөз 4 орыннан аз болмау керек',
+                                        'max_length': 'құпия сөз 64 орыннан көп болмау керек',
+                                        'data_type': 'құпия сөз string типынде болу керек'
+                                        }),
+            verify_data(username, required=False, min_length=3, max_length=64, data_type=str,
+                        error_messages={'min_length': 'атау 3 орыннан аз болмау керек',
+                                        'max_length': 'атау 64 орыннан көп болмау керек',
+                                        'data_type': 'атау string типынде болу керек'
+                                        }),
+            verify_data(birthday, required=False, min_length=10, max_length=10, data_type=str,
+                        error_messages={'min_length': 'туылған күн форматы YYYY-MM-DD болу керек',
+                                        'max_length': 'туылған күн форматы YYYY-MM-DD болу керек',
+                                        'data_type': 'туылған күн форматы YYYY-MM-DD болу керек'
+                                        }),
 
-#             if (user.username == username):
-#                 pass
-#             else:
-#                 try:
-#                     other_user = User.objects.get(username=username)
+        ]
 
-#                     errmsg = 'Имя пользователя уже существует!'
+        for is_valid, error_message in verify_list:
+            if not is_valid:
+                return JsonResponse({'messgae': error_message}, status=400)
 
-#                     return render(request, 'user/user_info.html', {
-#                         'this_page': 'user_info',
-#                         'panel': 'user_info',
-#                         'errmsg': errmsg,
-#                     })
-#                 except:
-#                     user.username = username
+        if gender is not None and not isinstance(gender, bool):
+            return JsonResponse({'messgae': "жыныс boolean типінде болу керек"}, status=400)
 
-#             if password != '':
-#                 user.password = make_password(password)
-
-#             return render(request, 'user/user_info.html', {
-#                 'this_page': 'user_info',
-#                 'panel': 'user_info',
-#                 'backmsg': 'Успешно изменено!',
-#             })
-
-#         if 'del_cart' in request.POST:
-#             cart = Cart.objects.get(id=int(request.POST.get('cart_id')))
-#             cart.delete()
-
-#             return JsonResponse({'res': True}, status=200)
-
-#         if 'buy' in request.POST:
-#             cart = Cart.objects.get(id=int(request.POST.get('cart_id')))
-#             pizza = Pizza.objects.get(id=cart.item.id)
-
-#             if cart.total <= pizza.total :
-#                 result = True
-#                 pizza.total -= 1
-#                 pizza.save()
-
-#                 cart.status = 1
-#                 cart.save()
-#             else:
-#                 result = False
-
-#             return JsonResponse({'res': result}, status=200)
+        user.username = username or user_current_info.get('username')
+        user.phone = phone or user_current_info.get('phone')
+        user.password = make_password(password, settings.SECRET_KEY) or user.password
+        user.gender = gender or user_current_info.get('gender')
+        user.birthday = birthday or user_current_info.get('birthday')
+        user.save()

@@ -1,17 +1,21 @@
 from django.core.handlers.wsgi import WSGIRequest
-from json import loads as josn_loads
+from json import loads as json_loads
 
 
 def get_data(request: WSGIRequest) -> dict:
+
     body = request.body
 
-    if body.decode('utf-8') == '':
+    try:
+        if body.decode('utf-8') == '':
+            return {}
+
+        return json_loads(body)
+    except:
         return {}
 
-    return josn_loads(body)
 
-
-def verify_data(data: any, required: bool = True, data_type: any = str, min_length: int = None, max_length: int = None, error_messages: dict = {}) -> tuple[bool, str] or tuple[bool, None]:
+def verify_data(data: any, required: bool = True, data_type: any = str, min_length: int = None, max_length: int = None, error_messages: dict = {}):
     no_need_verify = data is None and not required
 
     if no_need_verify:

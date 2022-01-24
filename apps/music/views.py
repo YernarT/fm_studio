@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 
 from django.views.generic import View
 
-from utils.mixins import LoginRequiredMixin
+# from utils.mixins import LoginRequiredMixin
 
 # from user.models import *
 # from music.models import *
