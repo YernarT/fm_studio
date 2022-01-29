@@ -13,14 +13,12 @@ specifiers:
   vue: ^3.2.25
   vue-router: 4.0.4
   vue-tsc: ^0.29.8
-  vuex: '4'
 
 dependencies:
   '@vueuse/core': 7.5.5_vue@3.2.29
   axios: 0.25.0
   vue: 3.2.29
   vue-router: 4.0.4_vue@3.2.29
-  vuex: 4.0.2_vue@3.2.29
 
 devDependencies:
   '@arco-design/web-vue': 2.16.2_vue@3.2.29
@@ -199,10 +197,6 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.2.29
       '@vue/shared': 3.2.29
-    dev: false
-
-  /@vue/devtools-api/6.0.0-beta.21.1:
-    resolution: {integrity: sha512-FqC4s3pm35qGVeXRGOjTsRzlkJjrBLriDS9YXbflHLsfA9FrcKzIyWnLXoNm+/7930E8rRakXuAc2QkC50swAw==}
     dev: false
 
   /@vue/reactivity-transform/3.2.29:
@@ -1260,15 +1254,6 @@ packages:
       '@vue/runtime-dom': 3.2.29
       '@vue/server-renderer': 3.2.29_vue@3.2.29
       '@vue/shared': 3.2.29
-    dev: false
-
-  /vuex/4.0.2_vue@3.2.29:
-    resolution: {integrity: sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==}
-    peerDependencies:
-      vue: ^3.0.2
-    dependencies:
-      '@vue/devtools-api': 6.0.0-beta.21.1
-      vue: 3.2.29
     dev: false
 
   /with/7.0.2:
