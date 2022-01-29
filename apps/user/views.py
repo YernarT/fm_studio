@@ -191,3 +191,18 @@ class EditView(View):
         user.gender = gender or user_current_info.get('gender')
         user.birthday = birthday or user_current_info.get('birthday')
         user.save()
+
+        user_obj = {
+            'id': user.id,
+            'username': user.username,
+            'phone': user.phone,
+            'is_admin': user.is_admin,
+            'birthday': user.birthday,
+            'gender': user.gender,
+            'avatar': request.get_host() + settings.MEDIA_URL + str(user.avatar),
+            'create_time': user.create_time
+        }
+
+        return JsonResponse({'messgae': 'Өзгерту сәтті болд', 'data': {
+            'user': user_obj
+        }}, status=200)
