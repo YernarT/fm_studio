@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from 'components/user/Navbar/index.vue';
-import BottomNavigationBar from 'components/user/BottomNavigationBar/index.vue';
-import AuthModal from 'components/auth/AuthModal/index.vue';
-import MusicPlayer from 'components/user/MusicPlayer/index.vue';
+import Navbar from '@/components/user/Navbar/index.vue';
+import BottomNavigationBar from '@/components/user/BottomNavigationBar/index.vue';
+import AuthModal from '@/components/auth/AuthModal/index.vue';
+// import MusicPlayer from '@/components/user/MusicPlayer/index.vue';
 </script>
 
 <style scoped lang="less">

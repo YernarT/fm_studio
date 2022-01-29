@@ -1,27 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-const routes: Array<any> = [
+const routes = [
 	{
 		path: '/',
 		name: 'Home',
 		auth: false,
 		component: () =>
-			import(/* webpackChunkName: "Home" */ 'pages/user/Home/index.vue'),
-		beforeEnter: (to: object, from: object, next: Function): any => {
-			console.log(to, from);
-			next();
-		},
+			import(/* webpackChunkName: "Home" */ '@/pages/user/Home/index.vue'),
+		// beforeEnter: (to, from, next) => {
+		// 	next();
+		// },
 	},
 	{
 		path: '/my-music',
 		name: 'MyMusic',
 		auth: true,
 		component: () =>
-			import(/* webpackChunkName: "MyMusic" */ 'pages/user/MyMusic/index.vue'),
-		beforeEnter: (to: object, from: object, next: Function): any => {
-			console.log(to, from);
-			next();
-		},
+			import(/* webpackChunkName: "MyMusic" */ '@/pages/user/MyMusic/index.vue'),
+		// beforeEnter: (to, from, next) => {
+		// 	next();
+		// },
 	},
 	{
 		path: '/leaderboard',
@@ -29,23 +27,21 @@ const routes: Array<any> = [
 		auth: false,
 		component: () =>
 			import(
-				/* webpackChunkName: "Leaderboard" */ 'pages/user/Leaderboard/index.vue'
+				/* webpackChunkName: "Leaderboard" */ '@/pages/user/Leaderboard/index.vue'
 			),
-		beforeEnter: (to: object, from: object, next: Function): any => {
-			console.log(to, from);
-			next();
-		},
+		// beforeEnter: (to, from, next) => {
+		// 	next();
+		// },
 	},
 	{
 		path: '/profile',
 		name: 'Profile',
 		auth: true,
 		component: () =>
-			import(/* webpackChunkName: "Profile" */ 'pages/user/Profile/index.vue'),
-		beforeEnter: (to: object, from: object, next: Function): any => {
-			console.log(to, from);
-			next();
-		},
+			import(/* webpackChunkName: "Profile" */ '@/pages/user/Profile/index.vue'),
+		// beforeEnter: (to, from, next) => {
+		// 	next();
+		// },
 	},
 ];
 
