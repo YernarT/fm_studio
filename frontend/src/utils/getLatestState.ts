@@ -2,26 +2,26 @@
  * Check the contents of localStorage are out of date or incorrect
  */
 
-interface Conditions {
+interface IsObject {
 	[key: string]: any;
 }
 
-export default function getLatestState<T extends Conditions>(
-	dataFromStorage: T,
-	defaultData: T,
+export default function getLatestState<T extends IsObject>(
+	dataToBeDetected: T,
+	defaultCorrectData: T,
 ): [boolean, T] {
-	let fromStorageKeys = Object.keys(dataFromStorage);
-	let defaultKeys = Object.keys(defaultData);
+	let fromStorageKeys = Object.keys(dataToBeDetected);
+	let defaultKeys = Object.keys(defaultCorrectData);
 
 	if (fromStorageKeys.length !== defaultKeys.length) {
-		return [false, defaultData];
+		return [false, defaultCorrectData];
 	}
 
 	fromStorageKeys.forEach(key => {
 		if (!defaultKeys.includes(key)) {
-			return [false, defaultData];
+			return [false, defaultCorrectData];
 		}
 	});
 
-	return [true, dataFromStorage];
+	return [true, dataToBeDetected];
 }
