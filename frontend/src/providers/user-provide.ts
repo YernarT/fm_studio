@@ -11,6 +11,7 @@ const defaultUser: UserStateProperties = {
 	gender: false,
 	avatar: '',
 	create_time: null,
+	token: '',
 };
 
 // Check data

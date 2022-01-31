@@ -6,6 +6,7 @@ export interface UserStateProperties {
 	gender: boolean;
 	avatar: string;
 	create_time: Date | null;
+	token: '';
 }
 
 export interface PageStateProperties {

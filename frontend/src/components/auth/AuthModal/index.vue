@@ -85,6 +85,7 @@ const user: UserStateProperties = inject('$user', {
 	gender: false,
 	avatar: '',
 	create_time: null,
+	token: '',
 });
 const page: PageStateProperties = inject('$page', { authModalVisible: false });
 
