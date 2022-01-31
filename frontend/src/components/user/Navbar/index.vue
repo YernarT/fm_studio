@@ -41,7 +41,7 @@ const page = inject('$page', { authModalVisible: false });
 
 let selectedKeys = [router.currentRoute.value.path];
 
-function handleMenuItemClick(key: string): void {
+function handleMenuItemClick(key: string) {
 	router.push(key);
 }
 </script>

@@ -38,7 +38,7 @@ const router = useRouter();
 
 const pathname = router.currentRoute.value.path;
 
-function cd(path: string): void {
+function cd(path: string) {
 	router.push(path);
 }
 </script>
