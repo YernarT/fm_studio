@@ -13,7 +13,7 @@
 			</h3>
 		</template>
 		<a-form
-			:model="loginFormData"
+			:model="authFormData"
 			layout="vertical"
 			@submit-success="handleSubmit"
 		>
@@ -33,7 +33,7 @@
 					},
 				]"
 			>
-				<a-input v-model="loginFormData.phone" />
+				<a-input v-model="authFormData.phone" />
 			</a-form-item>
 			<a-form-item
 				field="password"
@@ -51,7 +51,7 @@
 					},
 				]"
 			>
-				<a-input-password v-model="loginFormData.password" />
+				<a-input-password v-model="authFormData.password" />
 			</a-form-item>
 
 			<a-form-item>
@@ -62,29 +62,58 @@
 </template>
 
 <script setup lang="ts">
-import { inject, shallowRef, ref, computed, watchEffect } from 'vue';
+import type {
+	UserStateProperties,
+	PageStateProperties,
+} from '#/global-shared-state';
 
-const page = inject('$page', { authModalVisible: false });
+import { inject, shallowRef, ref, computed } from 'vue';
+import { reqLog, reqReg } from '@/api/auth-api';
+
+const user: UserStateProperties = inject('$user', {
+	username: '',
+	phone: '',
+	is_admin: false,
+	birthday: null,
+	gender: false,
+	avatar: '',
+	create_time: null,
+});
+const page: PageStateProperties = inject('$page', { authModalVisible: false });
 
 const title = shallowRef('Кіру');
 const another = computed(() => (title.value === 'Кіру' ? 'Тіркелу' : 'Кіру'));
 
-function jump2Another(): void {
+function jump2Another() {
 	title.value = another.value;
 }
 
-watchEffect(() => {
-	console.log(title.value);
-});
-
-// login form data
-const loginFormData = ref({
+// auth form data
+const authFormData = ref({
 	phone: '',
 	password: '',
 });
 
-// handle login form
+// handle auth form
 function handleSubmit(values: any) {
-	console.log(values);
+	if (title.value === 'Кіру') {
+		reqLog(values)
+			.then(res => {
+				console.log('vue res: ', res);
+			})
+			.catch(err => {
+				console.log('vue err: ', err);
+			});
+
+		return;
+	}
+
+	reqReg(values)
+		.then(res => {
+			console.log(res);
+		})
+		.catch(err => {
+			console.log(err);
+		});
 }
 </script>
