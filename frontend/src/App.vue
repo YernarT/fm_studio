@@ -6,9 +6,19 @@
 
 <script setup lang="ts">
 import { reactive, provide } from 'vue';
+import { useEventListener } from '@vueuse/core';
+import { user, page } from '@/providers';
+import { localStorage } from '@/utils';
 
-const page = reactive({ authModalVisible: false });
-provide('$page', page);
+// Provides global shared state
+provide('$user', reactive(user));
+provide('$page', reactive(page));
+
+// Save data to LocalStorage
+useEventListener(window, 'beforeunload', () => {
+	localStorage.set('user', user);
+	localStorage.set('page', page);
+});
 </script>
 
 <!-- private style -->
