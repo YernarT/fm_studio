@@ -55,7 +55,14 @@
 			</a-form-item>
 
 			<a-form-item>
-				<a-button type="text" html-type="submit" long>{{ title }}</a-button>
+				<a-button
+					type="text"
+					html-type="submit"
+					long
+					:loading="authReqLoading"
+					:disabled="authReqLoading"
+					>{{ title }}</a-button
+				>
 			</a-form-item>
 		</a-form>
 	</a-modal>
@@ -67,7 +74,7 @@ import type {
 	PageStateProperties,
 } from '#/global-shared-state';
 
-import { inject, shallowRef, ref, computed } from 'vue';
+import { inject, shallowRef, reactive, computed } from 'vue';
 import { reqLog, reqReg } from '@/api/auth-api';
 
 const user: UserStateProperties = inject('$user', {
@@ -89,13 +96,17 @@ function jump2Another() {
 }
 
 // auth form data
-const authFormData = ref({
+const authFormData = reactive({
 	phone: '',
 	password: '',
 });
 
+const authReqLoading = shallowRef(false);
+
 // handle auth form
 function handleSubmit(values: any) {
+	authReqLoading.value = true;
+
 	if (title.value === 'Кіру') {
 		reqLog(values)
 			.then(res => {
@@ -105,6 +116,7 @@ function handleSubmit(values: any) {
 				console.log('vue err: ', err);
 			});
 
+		authReqLoading.value = false;
 		return;
 	}
 
@@ -115,5 +127,7 @@ function handleSubmit(values: any) {
 		.catch(err => {
 			console.log(err);
 		});
+
+	authReqLoading.value = false;
 }
 </script>
