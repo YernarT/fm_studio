@@ -75,7 +75,9 @@ import type {
 } from '#/global-shared-state';
 
 import { inject, shallowRef, reactive, computed } from 'vue';
+import { Message } from '@arco-design/web-vue';
 import { reqLog, reqReg } from '@/api/auth-api';
+import { localStorage } from '@/utils';
 
 const user: UserStateProperties = inject('$user', {
 	username: '',
@@ -111,24 +113,59 @@ function handleSubmit(values: any) {
 	if (title.value === 'Кіру') {
 		reqLog(values)
 			.then(res => {
-				console.log('vue res: ', res);
+				authFormData.phone = '';
+				authFormData.password = '';
+
+				const { data } = res;
+				const { user: _user } = data;
+
+				user.username = _user.username;
+				user.phone = _user.phone;
+				user.is_admin = _user.is_admin;
+				user.birthday = _user.birthday;
+				user.gender = _user.gender;
+				user.avatar = _user.avatar;
+				user.create_time = _user.create_time;
+				user.token = data.token;
+				localStorage.set('user', user);
+
+				Message.success(data.message);
+				authReqLoading.value = false;
+				page.authModalVisible = false;
 			})
 			.catch(err => {
-				console.log('vue err: ', err);
+				Message.error(err.message);
+				authReqLoading.value = false;
 			});
 
-		authReqLoading.value = false;
 		return;
 	}
 
 	reqReg(values)
 		.then(res => {
-			console.log(res);
+			authFormData.phone = '';
+			authFormData.password = '';
+
+			const { data } = res;
+			const { user: _user } = data;
+
+			user.username = _user.username;
+			user.phone = _user.phone;
+			user.is_admin = _user.is_admin;
+			user.birthday = _user.birthday;
+			user.gender = _user.gender;
+			user.avatar = _user.avatar;
+			user.create_time = _user.create_time;
+			user.token = data.token;
+			localStorage.set('user', user);
+
+			Message.success(data.message);
+			authReqLoading.value = false;
+			page.authModalVisible = false;
 		})
 		.catch(err => {
-			console.log(err);
+			Message.error(err.message);
+			authReqLoading.value = false;
 		});
-
-	authReqLoading.value = false;
 }
 </script>
