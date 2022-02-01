@@ -53,10 +53,10 @@ class LoginView(View):
                 'create_time': user.create_time
             }
 
-            return JsonResponse({'message': 'авторизация сәтті болды', 'data': {
-                'token': token,
-                'user': user_obj
-            }}, status=200)
+            return JsonResponse({'message': 'авторизация сәтті болды',
+                                 'token': token,
+                                 'user': user_obj
+                                 }, status=200)
 
         return JsonResponse({'message': 'авторизация сәтсіз болды'}, status=400)
 
@@ -127,10 +127,10 @@ class RegisterView(View):
             'create_time': new_user.create_time
         }
 
-        return JsonResponse({'message': 'тіркелу сәтті болды', 'data': {
-            'token': token,
-            'user': user_obj
-        }}, status=201)
+        return JsonResponse({'message': 'тіркелу сәтті болды',
+                             'token': token,
+                             'user': user_obj
+                             }, status=201)
 
 
 class EditView(View):
@@ -187,7 +187,8 @@ class EditView(View):
 
         user.username = username or user_current_info.get('username')
         user.phone = phone or user_current_info.get('phone')
-        user.password = make_password(password, settings.SECRET_KEY) or user.password
+        user.password = make_password(
+            password, settings.SECRET_KEY) or user.password
         user.gender = gender or user_current_info.get('gender')
         user.birthday = birthday or user_current_info.get('birthday')
         user.save()
@@ -203,6 +204,6 @@ class EditView(View):
             'create_time': user.create_time
         }
 
-        return JsonResponse({'message': 'Өзгерту сәтті болд', 'data': {
-            'user': user_obj
-        }}, status=200)
+        return JsonResponse({'message': 'Өзгерту сәтті болд',
+                             'user': user_obj
+                             }, status=200)
