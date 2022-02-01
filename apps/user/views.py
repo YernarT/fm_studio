@@ -32,12 +32,12 @@ class LoginView(View):
 
         for is_valid, error_message in verify_list:
             if not is_valid:
-                return JsonResponse({'messgae': error_message}, status=400)
+                return JsonResponse({'message': error_message}, status=400)
 
         try:
             user = User.objects.get(phone=phone)
         except User.DoesNotExist:
-            return JsonResponse({'messgae': 'авторизация сәтсіз болды'}, status=400)
+            return JsonResponse({'message': 'авторизация сәтсіз болды'}, status=400)
 
         if check_password(password, user.password):
             token = generate_token(user.id)
@@ -58,7 +58,7 @@ class LoginView(View):
                 'user': user_obj
             }}, status=200)
 
-        return JsonResponse({'messgae': 'авторизация сәтсіз болды'}, status=400)
+        return JsonResponse({'message': 'авторизация сәтсіз болды'}, status=400)
 
 
 class RegisterView(View):
@@ -85,7 +85,7 @@ class RegisterView(View):
 
         for is_valid, error_message in verify_list:
             if not is_valid:
-                return JsonResponse({'messgae': error_message}, status=400)
+                return JsonResponse({'message': error_message}, status=400)
 
         try:
             user = User.objects.get(phone=phone)
@@ -93,7 +93,7 @@ class RegisterView(View):
             user = None
 
         if user:
-            return JsonResponse({'messgae': 'телефон нөмер тіркелген'}, status=400)
+            return JsonResponse({'message': 'телефон нөмер тіркелген'}, status=400)
 
         # to create admin
         if is_admin:
@@ -110,7 +110,7 @@ class RegisterView(View):
                 new_user = User.objects.create(
                     phone=phone, password=make_password(password, settings.SECRET_KEY), is_admin=is_admin)
             else:
-                return JsonResponse({'messgae': 'админды құру үшін админ болу керек'}, status=401)
+                return JsonResponse({'message': 'админды құру үшін админ болу керек'}, status=401)
         else:
             new_user = User.objects.create(
                 phone=phone, password=make_password(password, settings.SECRET_KEY))
@@ -180,10 +180,10 @@ class EditView(View):
 
         for is_valid, error_message in verify_list:
             if not is_valid:
-                return JsonResponse({'messgae': error_message}, status=400)
+                return JsonResponse({'message': error_message}, status=400)
 
         if gender is not None and not isinstance(gender, bool):
-            return JsonResponse({'messgae': "жыныс boolean типінде болу керек"}, status=400)
+            return JsonResponse({'message': "жыныс boolean типінде болу керек"}, status=400)
 
         user.username = username or user_current_info.get('username')
         user.phone = phone or user_current_info.get('phone')
@@ -203,6 +203,6 @@ class EditView(View):
             'create_time': user.create_time
         }
 
-        return JsonResponse({'messgae': 'Өзгерту сәтті болд', 'data': {
+        return JsonResponse({'message': 'Өзгерту сәтті болд', 'data': {
             'user': user_obj
         }}, status=200)
