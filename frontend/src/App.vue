@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { reactive, provide } from 'vue';
 import { useEventListener } from '@vueuse/core';
+// For initialization only
 import { user, page } from '@/providers';
 import { localStorage } from '@/utils';
 
@@ -17,7 +18,6 @@ provide('$page', reactive(page));
 // Save data to LocalStorage
 useEventListener(window, 'beforeunload', () => {
 	localStorage.set('user', user);
-	localStorage.set('page', page);
 });
 </script>
 
