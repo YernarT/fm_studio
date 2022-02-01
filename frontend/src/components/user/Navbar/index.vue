@@ -19,6 +19,7 @@
 		<div class="navbar__tools">
 			<a-input-search class="desktop-search" placeholder="Іздеу" allow-clear />
 			<a-button
+				v-if="!user.token"
 				class="auth-btn"
 				@click="page.authModalVisible = true"
 				type="text"
@@ -26,6 +27,26 @@
 			>
 				Кіру / Тіркелу
 			</a-button>
+			<a-dropdown v-if="user.token" class="user-menu" @select="handle">
+				<a-button>
+					<img :src="user.avatar" alt="avatar" class="avatar" />
+					<icon-down
+				/></a-button>
+				<template #content>
+					<a-doption>
+						<template #icon>
+							<icon-user />
+						</template>
+						<template #default>Жеке кабинет</template>
+					</a-doption>
+					<a-doption>
+						<template #icon>
+							<icon-export />
+						</template>
+						<template #default>Шығу</template>
+					</a-doption>
+				</template>
+			</a-dropdown>
 		</div>
 
 		<a-input-search class="mobile-search" placeholder="Іздеу" allow-clear />
@@ -33,16 +54,35 @@
 </template>
 
 <script lang="ts" setup>
+import type {
+	UserStateProperties,
+	PageStateProperties,
+} from '#/global-shared-state';
+
 import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const page = inject('$page', { authModalVisible: false });
+const user: UserStateProperties = inject('$user', {
+	username: '',
+	phone: '',
+	is_admin: false,
+	birthday: null,
+	gender: false,
+	avatar: '',
+	create_time: null,
+	token: '',
+});
+const page: PageStateProperties = inject('$page', { authModalVisible: false });
 
 let selectedKeys = [router.currentRoute.value.path];
 
 function handleMenuItemClick(key: string) {
 	router.push(key);
+}
+
+function handle(v: any) {
+	console.log(v);
 }
 </script>
 
@@ -79,6 +119,14 @@ function handleMenuItemClick(key: string) {
 
 		.auth-btn {
 			background-color: transparent;
+		}
+
+		.avatar {
+			width: 40px;
+			height: 40px;
+			object-fit: cover;
+
+			border-radius: 50%;
 		}
 	}
 
