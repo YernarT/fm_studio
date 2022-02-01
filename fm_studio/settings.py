@@ -2,7 +2,6 @@ from pathlib import Path
 from os import path as os_path
 from sys import path as sys_path
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 sys_path.insert(0, os_path.join(BASE_DIR, 'apps'))
@@ -11,7 +10,13 @@ SECRET_KEY = 'django-insecure-unecka@-8c77soyd44xzem2y+79pas+ps*856@dlmm3@vyev2!
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+]
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 
     'user',
     'music',
@@ -28,6 +34,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
