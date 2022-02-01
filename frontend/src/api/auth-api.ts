@@ -7,8 +7,8 @@ export interface AuthData {
 
 // Login
 export const reqLog = (data: AuthData) =>
-	apiServerInstance.post('/login', data);
+	apiServerInstance.post('/user/login', data);
 
 // Register
 export const reqReg = (data: AuthData) =>
-	apiServerInstance.post('/register', data);
+	apiServerInstance.post('/user/register', data);
