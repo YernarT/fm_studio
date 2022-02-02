@@ -28,7 +28,7 @@
 		"is_admin": false,
 		"birthday": null,
 		"gender": false,
-		"avatar": "127.0.0.1:8000/media/img/user/avatar/default-avatar.png",
+		"avatar": "http://127.0.0.1:8000/media/img/user/avatar/default-avatar.png",
 		"create_time": "2022-01-16T19:09:30.413Z"
 	}
 }
@@ -75,7 +75,7 @@
 		"is_admin": false,
 		"birthday": null,
 		"gender": 0,
-		"avatar": "127.0.0.1:8000/media/img/user/avatar/default-avatar.png",
+		"avatar": "http://127.0.0.1:8000/media/img/user/avatar/default-avatar.png",
 		"create_time": "2022-01-16T19:09:30.413Z"
 	}
 }
