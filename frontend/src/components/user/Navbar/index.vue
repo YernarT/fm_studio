@@ -27,19 +27,18 @@
 			>
 				Кіру / Тіркелу
 			</a-button>
-			<a-dropdown v-if="user.token" class="user-menu" @select="handle">
-				<a-button>
+			<a-dropdown v-if="user.token" @select="handleUserAction" trigger="hover">
+				<a-button class="user-actions">
 					<img :src="user.avatar" alt="avatar" class="avatar" />
-					<icon-down
-				/></a-button>
+				</a-button>
 				<template #content>
-					<a-doption>
+					<a-doption value="profile">
 						<template #icon>
 							<icon-user />
 						</template>
 						<template #default>Жеке кабинет</template>
 					</a-doption>
-					<a-doption>
+					<a-doption value="logout">
 						<template #icon>
 							<icon-export />
 						</template>
@@ -61,6 +60,8 @@ import type {
 
 import { inject } from 'vue';
 import { useRouter } from 'vue-router';
+import { authorizationRequiredPaths } from '@/routes';
+import { localStorage } from '@/utils';
 
 const router = useRouter();
 const user: UserStateProperties = inject('$user', {
@@ -81,8 +82,30 @@ function handleMenuItemClick(key: string) {
 	router.push(key);
 }
 
-function handle(v: any) {
-	console.log(v);
+function handleUserAction(v: string) {
+	switch (v) {
+		case 'profile':
+			router.push('/profile');
+		case 'logout':
+			user.username = '';
+			user.phone = '';
+			user.is_admin = false;
+			user.birthday = null;
+			user.gender = false;
+			user.avatar = '';
+			user.create_time = null;
+			user.token = '';
+			localStorage.set('user', user);
+
+			authorizationRequiredPaths.forEach(path => {
+				if (router.currentRoute.value.path === path) {
+					router.push('/');
+					return;
+				}
+			});
+		default:
+			return;
+	}
 }
 </script>
 
@@ -121,12 +144,17 @@ function handle(v: any) {
 			background-color: transparent;
 		}
 
-		.avatar {
-			width: 40px;
-			height: 40px;
-			object-fit: cover;
+		.user-actions {
+			height: 100%;
+			background-color: transparent;
 
-			border-radius: 50%;
+			.avatar {
+				width: 36px;
+				height: 36px;
+				object-fit: cover;
+
+				border-radius: 50%;
+			}
 		}
 	}
 
