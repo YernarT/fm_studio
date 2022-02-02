@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Message } from '@arco-design/web-vue';
 
 export const apiServerInstance = axios.create({
 	baseURL: 'http://localhost:8000',
@@ -21,37 +20,36 @@ apiServerInstance.interceptors.request.use(config => {
 apiServerInstance.interceptors.response.use(
 	res => res,
 	err => {
-		if (axios.isCancel(err)) {
-			return new Promise(() => {});
-		}
-
 		if (err.response && err.response.status) {
+			let { status } = err.response;
 			// TODO:
 			// 当verify jwt返回false时, 执行"退出"动作
 			// 提醒并跳转到登录页
-			switch (err.response.status) {
-				case 500:
-				case 504:
-					return Promise.reject(err);
 
-				case 404:
-					return Promise.reject(err);
-				default:
-					return Promise.reject(err);
+			if (status >= 500) {
+				return Promise.reject({
+					message: 'сервер құлап қалды...',
+				});
+			} else if (status >= 400 && status < 500) {
+				return Promise.reject(err.response.data);
+			} else {
+				return Promise.reject({
+					message: 'белгісіз жағдай, кейінірек қайталаңыз',
+				});
 			}
 		}
 
 		if (err.message === 'Network Error') {
-			Message.error({
-				content: 'Сервер істен шықты, кейінірек қайталаңыз',
+			return Promise.reject({
+				message: 'сервер істен шықты, кейінірек қайталаңыз',
 			});
-
-			return new Promise(() => {});
 		}
 
-		console.log('\n\n开发中的未知错误!');
+		console.log('\n\n\n开发中的未知错误!');
 		console.log(err);
 		console.log('\n\n\n');
-		return Promise.reject(err);
+		return Promise.reject({
+			message: 'сервер істен шықты, кейінірек қайталаңыз',
+		});
 	},
 );
