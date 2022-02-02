@@ -18,24 +18,11 @@ def verify_token(request: WSGIRequest):
         if (now - token_expire_date).days < 0:
             user = User.objects.get(id=id)
 
-            user_obj = {
-                'id': user.id,
-                'username': user.username,
-                'phone': user.phone,
-                'is_admin': user.is_admin,
-                'birthday': user.birthday,
-                'gender': user.gender,
-                'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower()  + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user.avatar),
-                'create_time': user.create_time
-            }
-
-            return True, {'message': 'Verification succeeded', 'data': {'user_attr': user_obj,
-                                                                        'user': user
-                                                                        }}
+            return True, {'message': 'авторизация сәтті болды', 'user': user}
         else:
-            return False, {'message': 'Token expired'}
+            return False, {'message': 'авторизация мерзімі аяқталды'}
 
-    return False, {'message': 'Token incorrect'}
+    return False, {'message': 'авторизация сәтсіз болды'}
 
 
 def generate_token(id: int) -> str:

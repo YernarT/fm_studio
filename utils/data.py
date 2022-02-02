@@ -23,16 +23,16 @@ def verify_data(data: Any, required: bool = True, data_type: Any = str, min_leng
         return True, None
 
     if required and data is None:
-        return False, error_messages.get('required', 'required field')
+        return False, error_messages.get('required', 'міндетті өріс')
 
     if data_type and not isinstance(data, data_type):
-        return False, error_messages.get('data_type', 'incorrect type')
+        return False, error_messages.get('data_type', 'дұрыс емес тип')
 
     if data_type == str:
         if min_length and len(data) < min_length:
-            return False, error_messages.get('min_length', 'less than minimum length')
+            return False, error_messages.get('min_length', 'минималды ұзындығынан аз')
 
         if max_length and len(data) > max_length:
-            return False, error_messages.get('max_length', 'more than maximum length')
+            return False, error_messages.get('max_length', 'максималды ұзындығынан артық')
 
     return True, None
