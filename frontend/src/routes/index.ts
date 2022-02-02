@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
 	},
 ];
 
+export const authorizationRequiredPaths: Array<string> = [
+	'/my-music',
+	'/profile',
+];
+
 const router = createRouter({
 	history: createWebHistory('/'),
 	routes,
