@@ -5,6 +5,7 @@
 		:footer="false"
 		hide-cancel
 		unmount-on-close
+		modal-class="auth-modal"
 	>
 		<template #title>
 			<h3 @click="jump2Another" style="cursor: pointer">
@@ -78,6 +79,7 @@ import { inject, shallowRef, reactive, computed } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { reqLog, reqReg } from '@/api/auth-api';
 import { localStorage } from '@/utils';
+import '@/assets/style/auth-modal.css';
 
 const user: UserStateProperties = inject('$user', {
 	username: '',
