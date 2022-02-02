@@ -23,7 +23,7 @@
 		</li>
 		<li
 			:class="{ item: true, 'item-active': pathname === '/profile' }"
-			@click="cd('/profile')"
+			@click="cdProfile"
 		>
 			<icon-user class="icon" />
 			<span class="name">Жеке кабинет</span>
@@ -32,14 +32,39 @@
 </template>
 
 <script lang="ts" setup>
+import type {
+	UserStateProperties,
+	PageStateProperties,
+} from '#/global-shared-state';
+
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
+const user: UserStateProperties = inject('$user', {
+	username: '',
+	phone: '',
+	is_admin: false,
+	birthday: null,
+	gender: false,
+	avatar: '',
+	create_time: null,
+	token: '',
+});
+const page: PageStateProperties = inject('$page', { authModalVisible: false });
 const pathname = router.currentRoute.value.path;
 
 function cd(path: string) {
 	router.push(path);
+}
+
+function cdProfile() {
+	if (user.token) {
+		cd('/profile');
+		return;
+	}
+
+	page.authModalVisible = true;
 }
 </script>
 
