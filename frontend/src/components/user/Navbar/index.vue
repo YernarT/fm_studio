@@ -86,6 +86,7 @@ function handleUserAction(v: string) {
 	switch (v) {
 		case 'profile':
 			router.push('/profile');
+			break;
 		case 'logout':
 			user.username = '';
 			user.phone = '';
@@ -103,6 +104,7 @@ function handleUserAction(v: string) {
 					return;
 				}
 			});
+			break;
 		default:
 			return;
 	}
