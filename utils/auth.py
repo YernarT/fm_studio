@@ -25,7 +25,7 @@ def verify_token(request: WSGIRequest):
                 'is_admin': user.is_admin,
                 'birthday': user.birthday,
                 'gender': user.gender,
-                'avatar': request.get_host() + settings.MEDIA_URL + str(user.avatar),
+                'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower()  + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user.avatar),
                 'create_time': user.create_time
             }
 

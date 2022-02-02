@@ -49,7 +49,7 @@ class LoginView(View):
                 'is_admin': user.is_admin,
                 'birthday': user.birthday,
                 'gender': user.gender,
-                'avatar': request.get_host() + settings.MEDIA_URL + str(user.avatar),
+                'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower()  + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user.avatar),
                 'create_time': user.create_time
             }
 
@@ -123,7 +123,7 @@ class RegisterView(View):
             'is_admin': new_user.is_admin,
             'birthday': new_user.birthday,
             'gender': new_user.gender,
-            'avatar': request.get_host() + settings.MEDIA_URL + str(new_user.avatar),
+            'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower()  + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(new_user.avatar),
             'create_time': new_user.create_time
         }
 
@@ -200,7 +200,7 @@ class EditView(View):
             'is_admin': user.is_admin,
             'birthday': user.birthday,
             'gender': user.gender,
-            'avatar': request.get_host() + settings.MEDIA_URL + str(user.avatar),
+            'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower()  + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user.avatar),
             'create_time': user.create_time
         }
 
