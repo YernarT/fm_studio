@@ -1,8 +1,6 @@
 # API Documentation
 
-# Login
-
-用于用户登录, 获取 token 和用户数据
+# 登录账号
 
 ## POST `/user/login`
 
@@ -46,9 +44,7 @@
 
 ---
 
-# Register
-
-用于注册用户, 获取 token 和用户数据
+# 注册账号
 
 ## POST `/user/register`
 
@@ -93,11 +89,9 @@
 
 ---
 
-# Edit
+# 编辑用户信息
 
-用于编辑用户信息
-
-## POST `/user/edit`
+## PUT `/user/edit`
 
 ### 请求数据
 
@@ -108,3 +102,62 @@
 | `password` | 密码     | `string` | `False` |
 | `birthday` | 生日     | `string` | `False` |
 | `gender`   | 性别     | `bool`   | `False` |
+
+### 成功的返回
+
+状态码: `200`
+
+```json
+{
+	"message": "өзгерту сәтті болд",
+	"user": {
+		"username": "user_2022020121",
+		"phone": "87714526555",
+		"is_admin": false,
+		"birthday": "2001-05-19",
+		"gender": true,
+		"avatar": "http://127.0.0.1:8000/media/img/user/avatar/default-avatar.png",
+		"create_time": "2022-02-01 16:47:52"
+	}
+}
+```
+
+### 失败的返回
+
+状态码: `400`
+
+```json
+{
+	"message": "телефон нөмер тіркелген"
+}
+```
+
+---
+
+# 更新用户头像
+
+## PATCH `/user/edit/avatar`
+
+### 请求数据
+
+| 字段名   | 描述 | 类型     | 必填   |
+| -------- | ---- | -------- | ------ |
+| `avatar` | 头像 | `string` | `True` |
+
+### 成功的返回
+
+状态码: `201`
+
+```json
+
+```
+
+### 失败的返回
+
+状态码: `400`
+
+```json
+
+```
+
+---
