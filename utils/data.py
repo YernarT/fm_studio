@@ -16,7 +16,9 @@ def get_data(request: WSGIRequest) -> dict:
         return {}
 
 
-def verify_data(data: Any, required: bool = True, data_type: Any = str, min_length: int = None, max_length: int = None, error_messages: dict = {}):
+def verify_data(data: Any, required: bool = True, data_type: Any = str,
+                min_length: int = None, max_length: int = None,
+                min: int = None, max: int = None, error_messages: dict = {}):
     no_need_verify = data is None and not required
 
     if no_need_verify:
@@ -34,5 +36,11 @@ def verify_data(data: Any, required: bool = True, data_type: Any = str, min_leng
 
         if max_length and len(data) > max_length:
             return False, error_messages.get('max_length', 'максималды ұзындығынан артық')
+
+    if data_type == int:
+        if min and data < min:
+            return False, error_messages.get('min', 'минималды мәннен аз')
+        if max and data > max:
+            return False, error_messages.get('max', 'максималды мәннен артық')
 
     return True, None
