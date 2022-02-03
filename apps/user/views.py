@@ -1,4 +1,3 @@
-from urllib import response
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password, make_password
@@ -12,15 +11,16 @@ from utils.data import verify_data, get_data
 
 def get_user_attr(request, user_obj) -> dict:
     '''user attributes for response'''
+    from datetime import datetime
 
     return {
         'username': user_obj.username,
         'phone': user_obj.phone,
         'is_admin': user_obj.is_admin,
-        'birthday': user_obj.birthday,
+        'birthday': datetime.strftime(user_obj.birthday, '%Y-%m-%d'),
         'gender': user_obj.gender,
         'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user_obj.avatar),
-        'create_time': user_obj.create_time
+        'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
     }
 
 
@@ -136,7 +136,7 @@ class EditView(View):
         is_valid, response_context = verify_token(request)
 
         if not is_valid:
-            return JsonResponse(response_context, stastus=401)
+            return JsonResponse(response_context, status=401)
 
         user = response_context.get('user')
         user_attr = get_user_attr(request, user)
@@ -179,12 +179,48 @@ class EditView(View):
             if not is_valid:
                 return JsonResponse({'message': error_message}, status=400)
 
-        user.username = username or user_attr.get('username')
-        user.phone = phone or user_attr.get('phone')
+        # exact check
+        if phone:
+            try:
+                same_phone_user = User.objects.get(phone=phone)
+            except User.DoesNotExist:
+                same_phone_user = None
+
+            if same_phone_user:
+                return JsonResponse({'message': 'телефон нөмер тіркелген'}, status=400)
+
+        if username:
+            import re
+            if re.search(r'\W', username) != None:
+                return JsonResponse({'message': 'атауда таңбаларды қолдануға болмайды'}, status=400)
+
+        if birthday:
+            import re
+            if re.search(r'^[0-9]{4}-[0-9]{2}-[0-9]{2}$', birthday) == None:
+                return JsonResponse({'message': 'туылған күн форматы YYYY-MM-DD болу керек'}, status=400)
+
+            from datetime import datetime
+            year = list(map(int, birthday.split('-')))[0]
+            is_valid, error_message = verify_data(year, data_type=int, min=1940, max=datetime.now().year, error_messages={
+                'min': 'туылған күннің жылы 1940 дан кейін болу керек',
+                'max': f'туылған күннің жылы {datetime.now().year} дан бұрын болу керек'
+            })
+
+            if not is_valid:
+                return JsonResponse({'message': error_message}, status=400)
+
+            try:
+                birthday = datetime.strptime(birthday, '%Y-%m-%d')
+            except:
+                return JsonResponse({'message': 'туылған күн дұрыс емес'}, status=400)
+
+        # edit
+        user.username = username or user.username
+        user.phone = phone or user.phone
         user.password = make_password(
-            password, settings.SECRET_KEY) or user.password
-        user.gender = gender or user_attr.get('gender')
-        user.birthday = birthday or user_attr.get('birthday')
+            password, settings.SECRET_KEY) if password else user.password
+        user.gender = gender if gender is not None else user.gender
+        user.birthday = birthday or user.birthday
         user.save()
 
         user_attr = get_user_attr(request, user)
