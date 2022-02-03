@@ -34,9 +34,14 @@ import AuthModal from '@/components/auth/AuthModal/index.vue';
 	.content {
 		flex: 100% 1 1;
 		overflow: hidden auto;
+		margin-top: 24px;
 
-		@media screen and (min-width: 840px) {
-			margin-top: 20px;
+		@media screen and (max-width: 840px) {
+			margin-top: 16px;
+		}
+
+		@media screen and (max-width: 540px) {
+			margin-top: 10px;
 		}
 	}
 }
