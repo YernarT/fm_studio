@@ -9,14 +9,14 @@ const routes: Array<RouteRecordRaw> = [
 		path: '/',
 		name: 'Home',
 		component: () =>
-			import(/* webpackChunkName: "Home" */ '@/pages/user/Home/index.vue'),
+			import(/* webpackChunkName: "Home" */ '@/pages/common/Home/index.vue'),
 	},
 	{
 		path: '/my-music',
 		name: 'MyMusic',
 		component: () =>
 			import(
-				/* webpackChunkName: "MyMusic" */ '@/pages/user/MyMusic/index.vue'
+				/* webpackChunkName: "MyMusic" */ '@/pages/common/MyMusic/index.vue'
 			),
 		beforeEnter: (_, __, next) => {
 			if (!user.token) {
@@ -31,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
 		name: 'Leaderboard',
 		component: () =>
 			import(
-				/* webpackChunkName: "Leaderboard" */ '@/pages/user/Leaderboard/index.vue'
+				/* webpackChunkName: "Leaderboard" */ '@/pages/common/Leaderboard/index.vue'
 			),
 	},
 	{
@@ -39,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
 		name: 'Profile',
 		component: () =>
 			import(
-				/* webpackChunkName: "Profile" */ '@/pages/user/Profile/index.vue'
+				/* webpackChunkName: "Profile" */ '@/pages/common/Profile/index.vue'
 			),
 		beforeEnter: (_, __, next) => {
 			if (!user.token) {
@@ -48,6 +48,18 @@ const routes: Array<RouteRecordRaw> = [
 			}
 			next();
 		},
+	},
+	{
+		path: '/404',
+		name: 'PageNotFound',
+		component: () =>
+			import(
+				/* webpackChunkName: "Profile" */ '@/pages/common/PageNotFound/index.vue'
+			),
+	},
+	{
+		path: '/:pathMatch(.*)',
+		redirect: '/404',
 	},
 ];
 
