@@ -1,7 +1,7 @@
 <template>
-	<div class="layout-container">
+	<BaseLayout>
 		<router-view></router-view>
-	</div>
+	</BaseLayout>
 </template>
 
 <script setup lang="ts">
@@ -10,6 +10,7 @@ import { useEventListener } from '@vueuse/core';
 // For initialization only
 import { user, page } from '@/providers';
 import { localStorage } from '@/utils';
+import BaseLayout from '@/components/common/BaseLayout/index.vue';
 
 // Provides global shared state
 provide('$user', reactive(user));
@@ -20,28 +21,3 @@ useEventListener(window, 'beforeunload', () => {
 	localStorage.set('user', user);
 });
 </script>
-
-<!-- private style -->
-<style scoped lang="less">
-.layout-container {
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
-	background-color: @backgroundColor;
-
-	display: flex;
-	flex-direction: column;
-}
-</style>
-
-<!-- public style -->
-<style lang="less">
-.container {
-	margin: auto;
-	width: 100%;
-
-	@media screen and (min-width: 980px) {
-		width: 980px;
-	}
-}
-</style>
