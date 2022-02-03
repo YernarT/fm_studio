@@ -57,7 +57,7 @@
 
 			<a-form-item>
 				<a-button
-					type="text"
+					type="primary"
 					html-type="submit"
 					long
 					:loading="authReqLoading"
