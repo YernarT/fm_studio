@@ -139,8 +139,6 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-	border-style: none;
-	background-color: transparent;
 	-webkit-appearance: button;
 }
 audio,
