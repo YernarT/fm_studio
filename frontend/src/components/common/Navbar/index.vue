@@ -224,7 +224,7 @@ function handleUserAction(v: string) {
 
 	@media screen and (max-width: 840px) {
 		flex-direction: column;
-		align-items: flex-start;
+		align-items: center;
 	}
 
 	@media screen and (max-width: 540px) {
