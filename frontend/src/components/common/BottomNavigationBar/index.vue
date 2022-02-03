@@ -1,28 +1,40 @@
 <template>
 	<ul class="bottom-navigation-bar">
 		<li
-			:class="{ item: true, 'item-active': pathname === '/' }"
+			:class="{
+				item: true,
+				'item-active': router.currentRoute.value.path === '/',
+			}"
 			@click="cd('/')"
 		>
 			<icon-compass class="icon" />
 			<span class="name">Музыкалар</span>
 		</li>
 		<li
-			:class="{ item: true, 'item-active': pathname === '/my-music' }"
+			:class="{
+				item: true,
+				'item-active': router.currentRoute.value.path === '/my-music',
+			}"
 			@click="cd('/my-music')"
 		>
 			<icon-music class="icon" />
 			<span class="name">Менің музыкам</span>
 		</li>
 		<li
-			:class="{ item: true, 'item-active': pathname === '/leaderboard' }"
+			:class="{
+				item: true,
+				'item-active': router.currentRoute.value.path === '/leaderboard',
+			}"
 			@click="cd('/leaderboard')"
 		>
 			<icon-trophy class="icon" />
 			<span class="name">Көшбасшылар тақтасы</span>
 		</li>
 		<li
-			:class="{ item: true, 'item-active': pathname === '/profile' }"
+			:class="{
+				item: true,
+				'item-active': router.currentRoute.value.path === '/profile',
+			}"
 			@click="cdProfile"
 		>
 			<icon-user class="icon" />
@@ -52,7 +64,6 @@ const user: UserStateProperties = inject('$user', {
 	token: '',
 });
 const page: PageStateProperties = inject('$page', { authModalVisible: false });
-const pathname = router.currentRoute.value.path;
 
 function cd(path: string) {
 	router.push(path);
@@ -86,6 +97,7 @@ function cdProfile() {
 		.icon,
 		.name {
 			color: @primaryColor;
+			transition: color 0.35s ease;
 		}
 
 		.icon {

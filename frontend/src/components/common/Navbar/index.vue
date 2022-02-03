@@ -1,20 +1,35 @@
 <template>
 	<div class="container navbar">
-		<a-menu
-			class="navbar__menu"
-			mode="horizontal"
-			theme="dark"
-			:selected-keys="selectedKeys"
-			@menu-item-click="handleMenuItemClick"
-		>
-			<a-menu-item class="menu__item" key="/">Музыкалар</a-menu-item>
-			<a-menu-item class="menu__item" key="/my-music">
+		<nav class="navbar__menu">
+			<li
+				:class="{
+					menu__item: true,
+					'menu__item--active': router.currentRoute.value.path === '/',
+				}"
+				@click="handleNavItemClick('/')"
+			>
+				Музыкалар
+			</li>
+			<li
+				:class="{
+					menu__item: true,
+					'menu__item--active': router.currentRoute.value.path === '/my-music',
+				}"
+				@click="handleNavItemClick('/my-music')"
+			>
 				Менің музыкам
-			</a-menu-item>
-			<a-menu-item class="menu__item" key="/leaderboard">
+			</li>
+			<li
+				:class="{
+					menu__item: true,
+					'menu__item--active':
+						router.currentRoute.value.path === '/leaderboard',
+				}"
+				@click="handleNavItemClick('/leaderboard')"
+			>
 				Көшбасшылар тақтасы
-			</a-menu-item>
-		</a-menu>
+			</li>
+		</nav>
 
 		<div class="navbar__tools">
 			<a-input-search class="desktop-search" placeholder="Іздеу" allow-clear />
@@ -76,10 +91,8 @@ const user: UserStateProperties = inject('$user', {
 });
 const page: PageStateProperties = inject('$page', { authModalVisible: false });
 
-let selectedKeys = [router.currentRoute.value.path];
-
-function handleMenuItemClick(key: string) {
-	router.push(key);
+function handleNavItemClick(to: string) {
+	router.push(to);
 }
 
 function handleUserAction(v: string) {
@@ -117,21 +130,62 @@ function handleUserAction(v: string) {
 
 	display: flex;
 	align-items: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
 
 	&__menu {
 		background-color: @backgroundColor;
+
+		display: flex;
+		align-items: center;
+		gap: 20px;
+
 		.menu__item {
+			color: rgba(255, 255, 255, 0.4);
 			background-color: @backgroundColor;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			position: relative;
+			cursor: pointer;
+			padding: 10px 0;
+
+			transition: color 0.35s ease;
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				transform: translateX(-50%);
+
+				width: 0;
+				height: 3px;
+				background-color: rgb(var(--primary-6));
+				transition: width 0.35s ease;
+			}
+
+			&:hover,
+			&--active {
+				color: #fff;
+
+				&::after {
+					width: 100%;
+				}
+			}
 		}
 	}
 
 	&__tools {
+		margin-left: auto;
 		display: flex;
 		align-items: center;
 
 		@media screen and (max-width: 840px) {
 			margin-top: 20px;
-			margin-left: 40px;
+			margin-left: 0;
 		}
 
 		.desktop-search {
