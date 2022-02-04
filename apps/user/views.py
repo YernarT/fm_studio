@@ -180,7 +180,7 @@ class EditView(View):
                 return JsonResponse({'message': error_message}, status=400)
 
         # exact check
-        if phone:
+        if phone and phone != user.phone:
             try:
                 same_phone_user = User.objects.get(phone=phone)
             except User.DoesNotExist:
@@ -228,3 +228,19 @@ class EditView(View):
         return JsonResponse({'message': 'өзгерту сәтті болд',
                              'user': user_attr
                              }, status=200)
+
+
+class EditAvatarView(View):
+    def patch(self, request):
+        is_valid, response_context = verify_token(request)
+
+        if not is_valid:
+            return JsonResponse(response_context, status=401)
+
+        user = response_context.get('user')
+        # user_attr = get_user_attr(request, user)
+
+        data = get_data(request)
+        print(user, data)
+
+        return JsonResponse({'message': 'өзгерту сәтті болд'}, status=201)
