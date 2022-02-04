@@ -1,6 +1,8 @@
 from pathlib import Path
 from os import path as os_path
 from sys import path as sys_path
+from corsheaders.defaults import default_headers
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,6 +17,10 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000'
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "X-AUTH-TOKEN",
 ]
 
 
