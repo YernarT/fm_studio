@@ -11,6 +11,7 @@ import router from './routes';
 // Common style
 import '@/assets/style/reset.css';
 import '@/assets/style/customize.less';
+import '@/assets/style/arco.css';
 
 const app = createApp(App);
 
