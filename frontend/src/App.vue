@@ -1,6 +1,8 @@
 <template>
 	<BaseLayout>
-		<router-view></router-view>
+		<a-config-provider :locale="enUS">
+			<router-view></router-view>
+		</a-config-provider>
 	</BaseLayout>
 </template>
 
@@ -11,6 +13,7 @@ import { useEventListener } from '@vueuse/core';
 import { user, page } from '@/providers';
 import { localStorage } from '@/utils';
 import BaseLayout from '@/components/common/BaseLayout/index.vue';
+import enUS from '@arco-design/web-vue/es/locale/lang/en-us';
 
 // Provides global shared state
 provide('$user', reactive(user));
