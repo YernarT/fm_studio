@@ -1,6 +1,6 @@
 <template>
 	<div class="profile">
-		<a-avatar class="avatar-wrap" :size="80" @click="handleChangeAvatar">
+		<a-avatar class="avatar-wrap" :size="80" @click="avatarRef.click()">
 			<img :src="user.avatar" alt="avatar" />
 			<template #trigger-icon>
 				<IconEdit />
@@ -9,9 +9,21 @@
 		<input
 			ref="avatarRef"
 			type="file"
+			name="avatar"
 			accept="image/png, image/jpeg"
 			class="avatar-input"
+			@change="handleChangeAvatar"
 		/>
+
+		<a-button
+			v-show="editAvatarBtnVisible"
+			type="primary"
+			:loading="editAvatarBtnLoading"
+			:disabled="editAvatarBtnLoading"
+			@click="handleEditAvatar"
+			>Өзгерту</a-button
+		>
+		<a-divider v-show="editAvatarBtnVisible" />
 
 		<a-form
 			class="edit-form"
@@ -93,7 +105,14 @@
 			</a-form-item>
 
 			<a-form-item>
-				<a-button type="primary" html-type="submit" long>Өзгерту</a-button>
+				<a-button
+					type="primary"
+					html-type="submit"
+					long
+					:loading="editBtnLoading"
+					:disabled="editBtnLoading"
+					>Өзгерту</a-button
+				>
 			</a-form-item>
 		</a-form>
 
@@ -105,23 +124,23 @@
 		</a-typography-text>
 
 		<a-button
-			class="logout-btn"
 			@click="handleLogout"
+			class="logout-btn"
 			type="primary"
 			status="danger"
 			>Шығу</a-button
 		>
-
-		<a-divider />
 	</div>
 </template>
 
 <script setup lang="ts">
 import type { UserStateProperties } from '#/global-shared-state';
 
-import { inject, ref, reactive } from 'vue';
+import { inject, ref, reactive, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { localStorage } from '@/utils';
+import { reqEdit, reqEditAvatar } from '@/api/user-api';
+import { Message } from '@arco-design/web-vue';
 
 const router = useRouter();
 const user: UserStateProperties = inject('$user', {
@@ -136,8 +155,36 @@ const user: UserStateProperties = inject('$user', {
 });
 
 const avatarRef = ref();
+const editAvatarBtnVisible = shallowRef(false);
+const editAvatarBtnLoading = shallowRef(false);
 function handleChangeAvatar() {
-	avatarRef.value.click();
+	if (avatarRef.value.files[0].size >= 500000) {
+		Message.warning('сурет пішімі 60kb-дан артық болмау керек');
+		return;
+	}
+
+	editAvatarBtnVisible.value = true;
+}
+
+function handleEditAvatar() {
+	editAvatarBtnLoading.value = true;
+	const data = new FormData();
+	data.append('avatar', avatarRef.value.files[0]);
+
+	reqEditAvatar(data)
+		.then(res => {
+			let {
+				data: { message, user: _user },
+			} = res;
+
+			user.avatar = _user.avatar;
+			Message.success(message);
+			editAvatarBtnLoading.value = false;
+		})
+		.catch(err => {
+			Message.error(err.message);
+			editAvatarBtnLoading.value = false;
+		});
 }
 
 const editFormData = reactive({
@@ -147,8 +194,34 @@ const editFormData = reactive({
 	birthday: user.birthday,
 	gender: user.gender,
 });
+const editBtnLoading = shallowRef(false);
 function handleEdit() {
-	console.log(editFormData);
+	editBtnLoading.value = true;
+
+	let reqData = Object.fromEntries(
+		Object.entries(editFormData).filter(
+			([key, value]) => Boolean(value) || key === 'gender',
+		),
+	);
+
+	reqEdit(reqData)
+		.then(res => {
+			let {
+				data: { user: _user, message },
+			} = res;
+
+			user.username = _user.username;
+			user.phone = _user.phone;
+			user.birthday = _user.birthday;
+			user.gender = _user.gender;
+
+			editBtnLoading.value = false;
+			Message.success(message);
+		})
+		.catch(err => {
+			editBtnLoading.value = false;
+			Message.error(err.message);
+		});
 }
 
 function handleLogout() {
@@ -169,6 +242,7 @@ function handleLogout() {
 <style scoped lang="less">
 .profile {
 	height: 100%;
+	overflow: inherit;
 	display: flex;
 	flex-direction: column;
 
