@@ -231,7 +231,7 @@ class EditView(View):
 
 
 class EditAvatarView(View):
-    def patch(self, request):
+    def post(self, request):
         is_valid, response_context = verify_token(request)
 
         if not is_valid:
@@ -240,7 +240,17 @@ class EditAvatarView(View):
         user = response_context.get('user')
         # user_attr = get_user_attr(request, user)
 
-        data = get_data(request)
-        print(user, data)
+        avatar = request.FILES.get('avatar')
+        if avatar is None:
+            return JsonResponse({'message': 'сурет форматты тек jpg, png, jpeg болу керек'}, status=400)
+
+        if avatar.size >= 500000:
+            return JsonResponse({'message': 'сурет пішімі 60kb-дан артық болмау керек'}, status=400)
+
+        import re
+        if not re.search('.*(jpg|png|jpeg)$', avatar.name):
+            return JsonResponse({'messgae': 'сурет форматты тек jpg, png, jpeg болу керек'}, status=400)
+
+        # img/user/avatar/default-avatar.png
 
         return JsonResponse({'message': 'өзгерту сәтті болд'}, status=201)
