@@ -238,7 +238,6 @@ class EditAvatarView(View):
             return JsonResponse(response_context, status=401)
 
         user = response_context.get('user')
-        # user_attr = get_user_attr(request, user)
 
         avatar = request.FILES.get('avatar')
         if avatar is None:
@@ -251,6 +250,14 @@ class EditAvatarView(View):
         if not re.search('.*(jpg|png|jpeg)$', avatar.name):
             return JsonResponse({'messgae': 'сурет форматты тек jpg, png, jpeg болу керек'}, status=400)
 
-        # img/user/avatar/default-avatar.png
+        # delete previous avatar
+        from os import remove
+        if user.avatar != 'img/user/avatar/default-avatar.png':
+            remove(settings.MEDIA_ROOT + '\\' +
+                   str(user.avatar).replace('/', '\\'))
 
-        return JsonResponse({'message': 'өзгерту сәтті болд'}, status=201)
+        user.avatar = avatar
+        user.save()
+        user_attr = get_user_attr(request, user)
+
+        return JsonResponse({'message': 'өзгерту сәтті болд', 'user': user_attr}, status=201)
