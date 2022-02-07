@@ -17,7 +17,7 @@ def get_user_attr(request, user_obj) -> dict:
         'username': user_obj.username,
         'phone': user_obj.phone,
         'is_admin': user_obj.is_admin,
-        'birthday': datetime.strftime(user_obj.birthday, '%Y-%m-%d'),
+        'birthday': datetime.strftime(user_obj.birthday, '%Y-%m-%d') if user_obj.birthday else None,
         'gender': user_obj.gender,
         'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user_obj.avatar),
         'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
