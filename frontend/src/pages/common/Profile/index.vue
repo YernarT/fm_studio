@@ -241,6 +241,8 @@ function handleLogout() {
 
 <style scoped lang="less">
 .profile {
+	max-width: 520px;
+	margin: auto;
 	height: 100%;
 	overflow: inherit;
 	display: flex;

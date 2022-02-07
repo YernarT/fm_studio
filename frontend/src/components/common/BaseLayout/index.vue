@@ -36,10 +36,6 @@ import AuthModal from '@/components/auth/AuthModal/index.vue';
 		overflow: hidden auto;
 		margin-top: 24px;
 
-		&::-webkit-scrollbar {
-			width: 0;
-		}
-
 		@media screen and (max-width: 840px) {
 			margin-top: 16px;
 		}
