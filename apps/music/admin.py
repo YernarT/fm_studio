@@ -6,6 +6,7 @@ admin.site.register(MusicType)
 admin.site.register(MusicLike)
 
 admin.site.register(Album)
+admin.site.register(AlbumMusic)
 admin.site.register(AlbumComment)
 
 admin.site.register(Favorites)

@@ -17,6 +17,21 @@ class Album(models.Model):
         return f'{self.name}'
 
 
+class AlbumMusic(models.Model):
+    album = models.ForeignKey(
+        'Album', on_delete=models.CASCADE, verbose_name='альбум')
+    music = models.ForeignKey(
+        to='Music', on_delete=models.CASCADE, verbose_name='музыка')
+
+    class Meta:
+        db_table = 'album_music'
+        verbose_name = 'альбумдағы музыка'
+        verbose_name_plural = 'альбумдағы музыкалар'
+
+    def __str__(self):
+        return f'{self.music.name}'
+
+
 class AlbumComment(models.Model):
     content = models.CharField(max_length=255, verbose_name='пікір')
     album = models.ForeignKey(
