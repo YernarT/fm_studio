@@ -136,7 +136,7 @@
 
 # 更新用户头像
 
-## PATCH `/user/edit/avatar`
+## POST `/user/edit/avatar`
 
 ### 请求数据
 
