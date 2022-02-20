@@ -62,16 +62,17 @@ def get_user_attr(request, user_obj) -> dict:
         'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
     }
 
-def get_music_attr(request, user_obj) -> dict:
+def get_music_attr(request, music_obj) -> dict:
     '''user attributes for response'''
     from datetime import datetime
 
     return {
-        'username': user_obj.username,
-        'phone': user_obj.phone,
-        'is_admin': user_obj.is_admin,
-        'birthday': datetime.strftime(user_obj.birthday, '%Y-%m-%d') if user_obj.birthday else None,
-        'gender': user_obj.gender,
-        'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user_obj.avatar),
-        'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
+        'id': music_obj.id,
+        'name': music_obj.name,
+        'music_type': music_obj.music_type,
+        'author': music_obj.author,
+        'views': music_obj.views,
+        'music': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(music_obj.music),
+        'create_time': datetime.strftime(music_obj.create_time, '%Y-%m-%d %H:%M:%S')
     }
+
