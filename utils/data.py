@@ -69,10 +69,18 @@ def get_music_attr(request, music_obj) -> dict:
     return {
         'id': music_obj.id,
         'name': music_obj.name,
-        'music_type': music_obj.music_type,
-        'author': music_obj.author,
+        'music_type': str(music_obj.music_type),
+        'author': music_obj.author.id,
         'views': music_obj.views,
         'music': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(music_obj.music),
         'create_time': datetime.strftime(music_obj.create_time, '%Y-%m-%d %H:%M:%S')
+    }
+
+def get_music_type_attr(request, music_type_obj) -> dict:
+    '''user attributes for response'''
+
+    return {
+        'id': music_type_obj.id,
+        'name': music_type_obj.name
     }
 
