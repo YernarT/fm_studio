@@ -49,7 +49,7 @@ class AlbumComment(models.Model):
 
 
 class MusicType(models.Model):
-    name = models.CharField(max_length=40, verbose_name='жанр атауы')
+    name = models.CharField(max_length=40, unique=True, verbose_name='жанр атауы')
 
     class Meta:
         db_table = 'music_type'
