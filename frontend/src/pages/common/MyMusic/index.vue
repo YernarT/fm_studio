@@ -5,7 +5,7 @@
 			:bordered="false"
 		>
 			<a-list-item>
-				<a-list>
+				<a-list class="list-wrap">
 					<template #header>
 						<span class="list-header">Музыкалар</span>
 					</template>
@@ -24,7 +24,7 @@
 				</a-list>
 			</a-list-item>
 			<a-list-item>
-				<a-list>
+				<a-list class="list-wrap">
 					<template #header>
 						<span class="list-header">Таңдаулар</span>
 					</template>
@@ -43,7 +43,7 @@
 				</a-list>
 			</a-list-item>
 			<a-list-item>
-				<a-list>
+				<a-list class="list-wrap">
 					<template #header>
 						<span class="list-header">Альбумдар</span>
 					</template>
@@ -106,17 +106,34 @@ const musics = [
 		createTime: '2010-06-11',
 		author: user,
 	},
-	{
-		id: 3,
-		name: 'Godzilla',
-		createTime: '2019-03-17',
-		author: user,
-	},
 ];
 
-const favorites = musics;
+const favorites = [
+	...musics,
+	...musics,
+	...musics,
+	...musics,
+	...musics,
+	...musics,
+];
 const albums = musics;
 </script>
+
+<style lang="less">
+.my-music {
+	.arco-list-content {
+		overflow: hidden auto;
+	}
+
+	.list-wrap {
+		.arco-list-content {
+			overflow: hidden auto;
+
+			flex: 1 1 300px;
+		}
+	}
+}
+</style>
 
 <style scoped lang="less">
 .my-music {
@@ -127,7 +144,7 @@ const albums = musics;
 
 	.arco-list-content {
 		.arco-list-item {
-			padding: 0;
+			padding: 5px;
 		}
 	}
 
