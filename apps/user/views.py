@@ -6,7 +6,8 @@ from fm_studio import settings
 
 from user.models import User
 from utils.auth import generate_token, verify_token
-from utils.data import verify_data, get_data, get_user_attr
+from utils.data import verify_data, get_data
+from utils.model_attr import get_user_attr
 
 
 class LoginView(View):
@@ -26,7 +27,7 @@ class LoginView(View):
             verify_data(password, min_length=4, max_length=60, data_type=str,
                         error_messages={'required': 'құпия сөз болу керек',
                                         'min_length': 'құпия сөз 4 орыннан аз болмау керек',
-                                        'max_length': 'құпия сөз 64 орыннан көп болмау керек',
+                                        'max_length': 'құпия сөз 60 орыннан көп болмау керек',
                                         'data_type': 'құпия сөз string типынде болу керек'
                                         })]
 
@@ -97,7 +98,7 @@ class RegisterView(View):
             # check request.user(request originator) is admin
             token_correct, response_context = verify_token(request)
 
-            if token_correct and response_context.get('user').get('is_admin'):
+            if token_correct and response_context.get('user').is_admin:
                 new_user = User.objects.create(
                     phone=phone, password=make_password(password, settings.SECRET_KEY), is_admin=is_admin)
             else:
