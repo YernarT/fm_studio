@@ -2,7 +2,7 @@
 
 # 登录账号
 
-## POST `/user/login`
+## POST `api/user/login/`
 
 ### 请求数据
 
@@ -46,7 +46,7 @@
 
 # 注册账号
 
-## POST `/user/register`
+## POST `api/user/register/`
 
 ### 请求数据
 
@@ -91,7 +91,7 @@
 
 # 编辑用户信息
 
-## PUT `/user/edit`
+## PUT `api/user/edit/`
 
 ### 请求数据
 
@@ -136,7 +136,7 @@
 
 # 更新用户头像
 
-## POST `/user/edit/avatar`
+## POST `api/user/edit/avatar/`
 
 ### 请求数据
 
