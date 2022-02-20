@@ -8,8 +8,8 @@ from fm_studio import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    url(r'^user/', include('user.urls', namespace='user')),
-    url(r'^music/', include('music.urls', namespace='music')),
+    url(r'^user/', include('user.urls')),
+    url(r'^music/', include('music.urls')),
 
     url(r'^media/(?P<path>.*)$', serve,
         {"document_root": settings.MEDIA_ROOT}),
