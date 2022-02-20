@@ -2,6 +2,8 @@ from typing import Any
 from django.core.handlers.wsgi import WSGIRequest
 from json import loads as json_loads
 
+from fm_studio import settings
+
 
 def get_data(request: WSGIRequest) -> dict:
 
@@ -60,7 +62,7 @@ def get_user_attr(request, user_obj) -> dict:
         'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
     }
 
-def get_user_attr(request, user_obj) -> dict:
+def get_music_attr(request, user_obj) -> dict:
     '''user attributes for response'''
     from datetime import datetime
 
