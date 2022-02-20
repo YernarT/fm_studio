@@ -69,7 +69,7 @@ class MusicTypeView(View):
         all_music_types_attr = [get_music_type_attr(
             request, music_type) for music_type in all_music_types]
 
-        return JsonResponse({'message': 'барлық жанрлар', 'data': all_music_types_attr}, status=200)
+        return JsonResponse({'message': 'барлық жанрлар', 'music_types': all_music_types_attr}, status=200)
 
     def post(self, request):
 
