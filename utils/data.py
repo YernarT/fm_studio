@@ -2,6 +2,8 @@ from typing import Any
 from django.core.handlers.wsgi import WSGIRequest
 from json import loads as json_loads
 
+from fm_studio import settings
+
 
 def get_data(request: WSGIRequest) -> dict:
 
@@ -44,3 +46,41 @@ def verify_data(data: Any, required: bool = True, data_type: Any = str,
             return False, error_messages.get('max', 'максималды мәннен артық')
 
     return True, None
+
+
+def get_user_attr(request, user_obj) -> dict:
+    '''user attributes for response'''
+    from datetime import datetime
+
+    return {
+        'username': user_obj.username,
+        'phone': user_obj.phone,
+        'is_admin': user_obj.is_admin,
+        'birthday': datetime.strftime(user_obj.birthday, '%Y-%m-%d') if user_obj.birthday else None,
+        'gender': user_obj.gender,
+        'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user_obj.avatar),
+        'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
+    }
+
+def get_music_attr(request, music_obj) -> dict:
+    '''user attributes for response'''
+    from datetime import datetime
+
+    return {
+        'id': music_obj.id,
+        'name': music_obj.name,
+        'music_type': str(music_obj.music_type),
+        'author': music_obj.author.id,
+        'views': music_obj.views,
+        'music': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(music_obj.music),
+        'create_time': datetime.strftime(music_obj.create_time, '%Y-%m-%d %H:%M:%S')
+    }
+
+def get_music_type_attr(request, music_type_obj) -> dict:
+    '''user attributes for response'''
+
+    return {
+        'id': music_type_obj.id,
+        'name': music_type_obj.name
+    }
+

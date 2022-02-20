@@ -49,7 +49,7 @@ class AlbumComment(models.Model):
 
 
 class MusicType(models.Model):
-    name = models.CharField(max_length=40, verbose_name='жанр атауы')
+    name = models.CharField(max_length=40, unique=True, verbose_name='жанр атауы')
 
     class Meta:
         db_table = 'music_type'
@@ -64,8 +64,8 @@ class Music(models.Model):
     name = models.CharField(max_length=40, verbose_name='музыка атауы')
     music = models.FileField(upload_to='audio/', verbose_name='музыка файлы')
     music_type = models.ManyToManyField(
-        to='MusicType', related_name='music_types', verbose_name='мазыка жанры')
-    auhtor = models.ForeignKey(
+        to='MusicType', related_name='music_types', verbose_name='музыка жанры')
+    author = models.ForeignKey(
         'user.User', on_delete=models.SET_NULL, null=True, verbose_name='авторы')
     views = models.IntegerField(default=0, verbose_name='есту саны')
     create_time = models.DateTimeField(

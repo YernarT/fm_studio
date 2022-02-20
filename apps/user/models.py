@@ -7,7 +7,7 @@ class User(models.Model):
         datetime.now(), '%Y%m%d%H'), verbose_name='атау')
     phone = models.CharField(max_length=11, unique=True,
                              verbose_name='телефон нөмер')
-    password = models.CharField(max_length=60, verbose_name='құпия сөз')
+    password = models.CharField(max_length=255, verbose_name='құпия сөз')
     is_admin = models.BooleanField(
         default=False, blank=False, verbose_name='админ')
 

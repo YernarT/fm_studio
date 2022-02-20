@@ -4,24 +4,12 @@ from django.contrib.auth.hashers import check_password, make_password
 
 from fm_studio import settings
 
-from user.models import User
+from .models import User
 from utils.auth import generate_token, verify_token
-from utils.data import verify_data, get_data
+from utils.data import verify_data, get_data, get_user_attr
 
 
-def get_user_attr(request, user_obj) -> dict:
-    '''user attributes for response'''
-    from datetime import datetime
 
-    return {
-        'username': user_obj.username,
-        'phone': user_obj.phone,
-        'is_admin': user_obj.is_admin,
-        'birthday': datetime.strftime(user_obj.birthday, '%Y-%m-%d') if user_obj.birthday else None,
-        'gender': user_obj.gender,
-        'avatar': request.META.get('SERVER_PROTOCOL')[:request.META.get('SERVER_PROTOCOL').find('/')].lower() + '://' + request.META.get('HTTP_HOST') + settings.MEDIA_URL + str(user_obj.avatar),
-        'create_time': datetime.strftime(user_obj.create_time, '%Y-%m-%d %H:%M:%S')
-    }
 
 
 class LoginView(View):
@@ -244,7 +232,7 @@ class EditAvatarView(View):
             return JsonResponse({'message': 'сурет форматты тек jpg, png, jpeg болу керек'}, status=400)
 
         if avatar.size >= 500000:
-            return JsonResponse({'message': 'сурет пішімі 60kb-дан артық болмау керек'}, status=400)
+            return JsonResponse({'message': 'сурет пішіні 60kb-дан артық болмау керек'}, status=400)
 
         import re
         if not re.search('.*(jpg|png|jpeg)$', avatar.name):

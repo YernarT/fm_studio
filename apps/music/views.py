@@ -4,80 +4,109 @@ from django.http import HttpResponse, JsonResponse
 
 from django.views.generic import View
 
-# from utils.mixins import LoginRequiredMixin
+from .models import *
+from .models import *
+from utils.data import get_data, verify_data, get_music_attr, get_music_type_attr
+from utils.auth import verify_token
 
-# from user.models import *
-# from music.models import *
 
-class IndexView(View):
-    
+class MusicView(View):
+
     def get(self, request):
 
-        context = {}
+        context = {'name': 'erhan'}
+        return JsonResponse(context, status=200)
 
-        return render(request, 'music/index.html', context=context)
+    def post(self, request):
 
-#     def post(self, request):
-#         do = request.POST.get('do')
+        print("123")
+        is_valid, response_context = verify_token(request)
 
-#         if do == 'add-cart':
-#             pizza = Pizza.objects.get(id=int(request.POST.get('pizza_id')))
-#             user = request.user
-#             Cart.objects.create(item=pizza, user=user, total=1)
-#             res = True
+        if not is_valid:
+            return JsonResponse(response_context, status=401)
 
-#             return JsonResponse({'res': res}, status=200)
+        user = response_context.get('user')
 
-# class DetailView(View):
-    
-#     def get(self, request, pizza_id):
-#         pizza = Pizza.objects.get(id=pizza_id)
+        data = get_data(request)
 
-#         context = {
-#             'this_page': 'detail',
-#             'pizza': pizza,
-#         }
+        name = data.get('name')
+        music = data.get('music')
+        music_type = data.get('music_type')
 
-#         return render(request, 'pizza/detail.html', context=context)
+        verify_list = [
+            verify_data(name, min_length=1, max_length=40, data_type=str,
+                        error_messages={'required': 'музыка атауы болу керек',
+                                        'min_length': 'музыка атауы кем дегенде 1 орынды болу керек',
+                                        'max_length': 'музыка атауы 40 орыннан аспау керек',
+                                        'data_type': 'музыка атауы string типынде болу керек'
+                                        }),
+            verify_data(music_type, data_type=int,
+                        error_messages={'required': 'музыка жанры болу керек',
+                                        'data_type': 'музыка жанры string типынде болу керек'
+                                        })]
 
-#     def post(self, request, pizza_id):
-#         user = request.user
-#         pizza = Pizza.objects.get(id=int(request.POST.get('pizza_id')))
-#         cart_total = int(request.POST.get('cart_total'))
-#         do = request.POST.get('do')
+        for is_valid, error_message in verify_list:
+            if not is_valid:
+                return JsonResponse({'message': error_message}, status=400)
 
-#         if do == 'add-cart':
-#             Cart.objects.create(item=pizza, user=user, total=cart_total)
-#             res = True
+        if music is None:
+            return JsonResponse({'message': 'аудио форматты тек mp3 болу керек'}, status=400)
 
-#             return JsonResponse({'res': res}, status=200)
-        
-#         if do == 'buy':
-#             Cart.objects.create(item=pizza, user=user, total=cart_total, status=1)
-#             res = True
+        # if music.size >= 500000:
+        #     return JsonResponse({'message': 'аудио пішіні 60kb-дан артық болмау керек'}, status=400)
+        # print(music.size)
 
-#             return JsonResponse({'res': res}, status=200)
-    
+        try:
+            music_type = MusicType.objects.get(id=music_type)
+        except MusicType.DoesNotExist:
+            return JsonResponse({'message': 'жүктелу сәтсіз болды'}, status=400)
 
-class SearchView(View):
-    def get(self, request):
-        # search_text = request.GET.get('search_text')
-        
-#         pizzas = []
+        new_music = Music.objects.create(name=name, music=music, author=user)
+        new_music.music_type.add(music_type)
 
-#         if search_text and search_text != '':
-#             pizzas = Pizza.objects.filter(name__icontains=search_text)
+        music_attr = get_music_attr(request, new_music)
 
-#         context = {
-#             'this_page': 'search',
-#             'search_text': search_text,
-#             'pizzas': pizzas,
-#         }
-
-        return render(request, 'music/search.html')
+        return JsonResponse({'message': 'музыка сәтті жүктелді',
+                             'music': music_attr}, status=201)
 
 
-class LeaderboardView(View):
-    def get(self, request):
-        
-        return render(request, 'music/leaderborad.html')
+class MusicTypeView(View):
+
+    def post(self, request):
+
+        print("MusicTypeView жанк")
+        is_valid, response_context = verify_token(request)
+
+        if not is_valid:
+            return JsonResponse(response_context, status=401)
+
+        user = response_context.get('user')
+        if user.is_admin is False:
+            return JsonResponse({'message': 'жанырды тек админ құрад'}, status=401)
+
+        data = get_data(request)
+        name = data.get('name')
+
+        is_valid, error_message = verify_data(name, min_length=1, max_length=40, data_type=str,
+                                              error_messages={'required': 'жаныр атауы болу керек',
+                                                              'min_length': 'жаныр атауы кем дегенде 1 орынды болу керек',
+                                                              'max_length': 'жаныр атауы 40 орыннан аспау керек',
+                                                              'data_type': 'жаныр атауы string типынде болу керек'
+                                                              })
+        if is_valid is False:
+            return JsonResponse({'message': error_message}, status=400)
+
+        try:
+            music_type = MusicType.objects.get(name=name)
+        except MusicType.DoesNotExist:
+            music_type = None
+
+        if music_type:
+            return JsonResponse({'message': 'жүктелу сәтсіз болды'}, status=400)
+
+        new_music_type = MusicType.objects.create(name=name)
+
+        music_type_attr = get_music_type_attr(request, new_music_type)
+
+        return JsonResponse({'message': 'музыка жаныры сәтті жүктелді',
+                             'music': music_type_attr}, status=201)
