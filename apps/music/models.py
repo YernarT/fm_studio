@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Album(models.Model):
-    name = models.CharField(max_length=40, verbose_name='альбом атауы')
+    name = models.CharField(max_length=24, verbose_name='альбом атауы')
     cover = models.ImageField(upload_to='img/music/album-cover/',
                               null=True, blank=True, verbose_name='альбом суреті')
     author = models.ForeignKey(
@@ -49,7 +49,7 @@ class AlbumComment(models.Model):
 
 
 class MusicType(models.Model):
-    name = models.CharField(max_length=40, unique=True, verbose_name='жанр атауы')
+    name = models.CharField(max_length=24, unique=True, verbose_name='жанр атауы')
 
     class Meta:
         db_table = 'music_type'
@@ -61,7 +61,7 @@ class MusicType(models.Model):
 
 
 class Music(models.Model):
-    name = models.CharField(max_length=40, verbose_name='музыка атауы')
+    name = models.CharField(max_length=24, verbose_name='музыка атауы')
     music = models.FileField(upload_to='audio/', verbose_name='музыка файлы')
     music_type = models.ManyToManyField(
         to='MusicType', related_name='music_types', verbose_name='музыка жанры')
@@ -96,7 +96,7 @@ class MusicLike(models.Model):
 
 
 class Favorites(models.Model):
-    name = models.CharField(max_length=40, verbose_name='таңдаулар атауы')
+    name = models.CharField(max_length=24, verbose_name='таңдаулар атауы')
     creator = models.ForeignKey(
         'user.User', on_delete=models.CASCADE, verbose_name='құрушы')
     create_time = models.DateTimeField(
