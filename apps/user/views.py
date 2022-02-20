@@ -1,15 +1,12 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password, make_password
 
 from fm_studio import settings
 
-from .models import User
+from user.models import User
 from utils.auth import generate_token, verify_token
 from utils.data import verify_data, get_data, get_user_attr
-
-
-
 
 
 class LoginView(View):
@@ -229,7 +226,7 @@ class EditAvatarView(View):
 
         avatar = request.FILES.get('avatar')
         if avatar is None:
-            return JsonResponse({'message': 'сурет форматты тек jpg, png, jpeg болу керек'}, status=400)
+            return JsonResponse({'message': 'сурет болу керек'}, status=400)
 
         if avatar.size >= 500000:
             return JsonResponse({'message': 'сурет пішіні 60kb-дан артық болмау керек'}, status=400)
