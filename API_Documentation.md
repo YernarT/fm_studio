@@ -174,3 +174,37 @@
 ```
 
 ---
+
+# 获取所有音乐类型
+
+## GET `api/music/type/`
+
+### 成功的返回
+
+状态码: `200`
+
+```json
+{
+	"message": "барлық жанрлар",
+	"music_types": [
+		{
+			"id": 1,
+			"name": "hip-hop"
+		},
+		{
+			"id": 2,
+			"name": "rock"
+		},
+		{
+			"id": 3,
+			"name": "ballad"
+		},
+		{
+			"id": 4,
+			"name": "classic"
+		}
+	]
+}
+```
+
+---
