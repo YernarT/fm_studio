@@ -65,7 +65,7 @@ class Music(models.Model):
     music = models.FileField(upload_to='audio/', verbose_name='музыка файлы')
     music_type = models.ManyToManyField(
         to='MusicType', related_name='music_types', verbose_name='мазыка жанры')
-    auhtor = models.ForeignKey(
+    author = models.ForeignKey(
         'user.User', on_delete=models.SET_NULL, null=True, verbose_name='авторы')
     views = models.IntegerField(default=0, verbose_name='есту саны')
     create_time = models.DateTimeField(
