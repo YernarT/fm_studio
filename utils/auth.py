@@ -1,8 +1,9 @@
 from django.core.handlers.wsgi import WSGIRequest
 from fm_studio import settings
 from user.models import User
-from datetime import datetime, timedelta
+
 from cryptocode import encrypt, decrypt
+from datetime import datetime, timedelta
 
 
 def verify_token(request: WSGIRequest):
@@ -27,7 +28,7 @@ def verify_token(request: WSGIRequest):
 
 def generate_token(id: int) -> str:
     now = datetime.now()
-    token_limit = timedelta(days=14)
+    token_limit = timedelta(days=10)
     token_expire_date = (now + token_limit).strftime('%Y%m%d%H%M')
 
     # id.expire-date
