@@ -11,10 +11,11 @@ def get_data(request: WSGIRequest) -> dict:
     body = request.body
 
     try:
-        if body.decode('utf-8') == '':
-            body = {}
+        body = body.decode('utf-8')
+        if body == '':
+            body = '{}'
     except:
-        body = {}
+        body = '{}'
 
     return json_loads(body)
 
