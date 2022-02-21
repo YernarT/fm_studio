@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 
@@ -48,8 +49,24 @@ class AlbumComment(models.Model):
         return f'{self.content}'
 
 
+class MusicAndType(models.Model):
+    music = models.ForeignKey(
+        to='Music', on_delete=models.CASCADE, verbose_name='музыка')
+    music_type = models.ForeignKey(
+        to='MusicType', on_delete=models.CASCADE, verbose_name='жанр')
+
+    class Meta:
+        db_table = 'music_and_type'
+        verbose_name = 'музыка және жанр'
+        verbose_name_plural = 'музыкалар және жанрлар'
+    
+    def __str__(self):
+        return f'{self.music} - {self.music_type}'
+
+
 class MusicType(models.Model):
-    name = models.CharField(max_length=24, unique=True, verbose_name='жанр атауы')
+    name = models.CharField(max_length=24, unique=True,
+                            verbose_name='жанр атауы')
 
     class Meta:
         db_table = 'music_type'
@@ -64,7 +81,7 @@ class Music(models.Model):
     name = models.CharField(max_length=24, verbose_name='музыка атауы')
     music = models.FileField(upload_to='audio/', verbose_name='музыка файлы')
     music_type = models.ManyToManyField(
-        to='MusicType', related_name='music_types', verbose_name='музыка жанры')
+        to='MusicType', related_name='music_types', through='MusicAndType', verbose_name='музыка жанры')
     author = models.ForeignKey(
         'user.User', on_delete=models.SET_NULL, null=True, verbose_name='авторы')
     views = models.IntegerField(default=0, verbose_name='есту саны')

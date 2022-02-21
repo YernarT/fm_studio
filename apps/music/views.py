@@ -1,8 +1,7 @@
 from django.http import JsonResponse
 from django.views.generic import View
 
-from user.models import *
-from music.models import *
+from music.models import Music, MusicType, MusicAndType
 
 from utils.auth import verify_token
 from utils.data import get_data, verify_data
@@ -43,9 +42,8 @@ class MusicView(View):
         if music is None:
             return JsonResponse({'message': 'аудио болу керек'}, status=400)
 
-        print('\nmusic size: ', music.size, '\n')
-        # if music.size >= 500000:
-        #     return JsonResponse({'message': 'аудио пішіні 60kb-дан артық болмау керек'}, status=400)
+        if music.size >= 1024 * 1024 * 10:
+            return JsonResponse({'message': 'аудио пішіні 10mb-дан артық болмау керек'}, status=400)
 
         try:
             music_type = MusicType.objects.get(id=music_type)
@@ -53,8 +51,10 @@ class MusicView(View):
             return JsonResponse({'message': 'музыка жанры табылмады'}, status=400)
 
         # new_music = Music.objects.create(name=name, music=music, author=user)
-        # new_music.music_type.add(music_type)
+        # music_and_type = MusicAndType.objects.create(music=new_music, music_type=music_type)
 
+        # print(new_music)
+        # print(dir(new_music))
         # music_attr = get_music_attr(request, new_music)
 
         return JsonResponse({'message': 'музыка сәтті жүктелді',
