@@ -229,8 +229,8 @@ class EditAvatarView(View):
         if avatar is None:
             return JsonResponse({'message': 'сурет болу керек'}, status=400)
 
-        if avatar.size >= 500000:
-            return JsonResponse({'message': 'сурет пішіні 60kb-дан артық болмау керек'}, status=400)
+        if avatar.size >= 1024 * 50:
+            return JsonResponse({'message': 'сурет пішіні 50kb-дан артық болмау керек'}, status=400)
 
         import re
         if not re.search('.*(jpg|png|jpeg)$', avatar.name):

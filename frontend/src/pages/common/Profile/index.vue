@@ -158,8 +158,8 @@ const avatarRef = ref();
 const editAvatarBtnVisible = shallowRef(false);
 const editAvatarBtnLoading = shallowRef(false);
 function handleChangeAvatar() {
-	if (avatarRef.value.files[0].size >= 500000) {
-		Message.warning('сурет пішімі 60kb-дан артық болмау керек');
+	if (avatarRef.value.files[0].size >= 1024 * 50) {
+		Message.warning('сурет пішімі 50kb-дан артық болмау керек');
 		return;
 	}
 
