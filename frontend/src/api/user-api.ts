@@ -10,11 +10,11 @@ export interface EditFormData {
 
 // Edit
 export const reqEdit = (data: EditFormData) =>
-	apiServerInstance.put('/user/edit', data);
+	apiServerInstance.put('/api/user/edit/', data);
 
 // Edit Avatar
 export const reqEditAvatar = (data: FormData) =>
-	apiServerInstance.post('/user/edit/avatar', data, {
+	apiServerInstance.post('/api/user/edit/avatar/', data, {
 		headers: {
 			'Content-Type': 'multipart/form-data',
 		},
