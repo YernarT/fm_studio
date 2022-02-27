@@ -17,6 +17,7 @@
 									<h1 class="name">{{ music.name }}</h1>
 									<span class="create-time">{{ music.createTime }}</span>
 								</div>
+								<icon-plus class="add-to-favorites" />
 								<icon-play-circle-fill class="play-btn" />
 							</div>
 						</a-card>
@@ -36,6 +37,7 @@
 									<h1 class="name">{{ music.name }}</h1>
 									<span class="create-time">{{ music.createTime }}</span>
 								</div>
+								<icon-plus class="add-to-favorites" />
 								<icon-play-circle-fill class="play-btn" />
 							</div>
 						</a-card>
@@ -55,6 +57,7 @@
 									<h1 class="name">{{ music.name }}</h1>
 									<span class="create-time">{{ music.createTime }}</span>
 								</div>
+								<icon-plus class="add-to-favorites" />
 								<icon-play-circle-fill class="play-btn" />
 							</div>
 						</a-card>
@@ -181,16 +184,20 @@ const albums = musics;
 			}
 		}
 
-		.play-btn {
+		.play-btn,
+		.add-to-favorites {
 			width: 36px;
 			height: 36px;
 			cursor: pointer;
 
-			margin-left: auto;
-
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+
+		.add-to-favorites {
+			margin-left: auto;
+			margin-right: 8px;
 		}
 	}
 }
