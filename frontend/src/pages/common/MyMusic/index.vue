@@ -1,5 +1,17 @@
 <template>
 	<div class="my-music">
+		<a-tabs default-active-key="2">
+			<a-tab-pane key="music" title="Музыкалар">
+				Content of Tab Panel 1
+			</a-tab-pane>
+			<a-tab-pane key="album" title="Альбумдар">
+				Content of Tab Panel 2
+			</a-tab-pane>
+			<a-tab-pane key="favorties" title="Таңдаулар">
+				Content of Tab Panel 3
+			</a-tab-pane>
+		</a-tabs>
+
 		<a-list
 			:gridProps="{ gutter: [24, 48], span: middle ? 24 : 12 }"
 			:bordered="false"
