@@ -1,26 +1,8 @@
 <template>
 	<div class="my-music">
-		<a-tabs default-active-key="2">
+		<a-tabs default-active-key="music">
 			<a-tab-pane key="music" title="Музыкалар">
-				Content of Tab Panel 1
-			</a-tab-pane>
-			<a-tab-pane key="album" title="Альбумдар">
-				Content of Tab Panel 2
-			</a-tab-pane>
-			<a-tab-pane key="favorties" title="Таңдаулар">
-				Content of Tab Panel 3
-			</a-tab-pane>
-		</a-tabs>
-
-		<a-list
-			:gridProps="{ gutter: [24, 48], span: middle ? 24 : 12 }"
-			:bordered="false"
-		>
-			<a-list-item>
-				<a-list class="list-wrap">
-					<template #header>
-						<span class="list-header">Музыкалар</span>
-					</template>
+				<a-list :bordered="false">
 					<a-list-item v-for="music in musics">
 						<a-card hoverable :key="music.id">
 							<div class="music">
@@ -35,32 +17,9 @@
 						</a-card>
 					</a-list-item>
 				</a-list>
-			</a-list-item>
-			<a-list-item>
-				<a-list class="list-wrap">
-					<template #header>
-						<span class="list-header">Таңдаулар</span>
-					</template>
-					<a-list-item v-for="music in favorites">
-						<a-card hoverable :key="music.id">
-							<div class="music">
-								<img :src="music.author.avatar" alt="author" class="author" />
-								<div class="info">
-									<h1 class="name">{{ music.name }}</h1>
-									<span class="create-time">{{ music.createTime }}</span>
-								</div>
-								<icon-plus class="add-to-favorites" />
-								<icon-play-circle-fill class="play-btn" />
-							</div>
-						</a-card>
-					</a-list-item>
-				</a-list>
-			</a-list-item>
-			<a-list-item>
-				<a-list class="list-wrap">
-					<template #header>
-						<span class="list-header">Альбумдар</span>
-					</template>
+			</a-tab-pane>
+			<a-tab-pane key="album" title="Альбумдар">
+				<a-list :bordered="false">
 					<a-list-item v-for="music in albums">
 						<a-card hoverable :key="music.id">
 							<div class="music">
@@ -75,8 +34,25 @@
 						</a-card>
 					</a-list-item>
 				</a-list>
-			</a-list-item>
-		</a-list>
+			</a-tab-pane>
+			<a-tab-pane key="favorties" title="Таңдаулар">
+				<a-list :bordered="false">
+					<a-list-item v-for="music in favorites">
+						<a-card hoverable :key="music.id">
+							<div class="music">
+								<img :src="music.author.avatar" alt="author" class="author" />
+								<div class="info">
+									<h1 class="name">{{ music.name }}</h1>
+									<span class="create-time">{{ music.createTime }}</span>
+								</div>
+								<icon-plus class="add-to-favorites" />
+								<icon-play-circle-fill class="play-btn" />
+							</div>
+						</a-card>
+					</a-list-item>
+				</a-list>
+			</a-tab-pane>
+		</a-tabs>
 	</div>
 </template>
 
@@ -152,11 +128,6 @@ const albums = musics;
 
 <style scoped lang="less">
 .my-music {
-	.list-header {
-		color: #fff;
-		font-size: 1.36rem;
-	}
-
 	.arco-list-content {
 		.arco-list-item {
 			padding: 5px;
