@@ -15,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from '@/components/common/Navbar/index.vue';
-import BottomNavigationBar from '@/components/common/BottomNavigationBar/index.vue';
-import AuthModal from '@/components/auth/AuthModal/index.vue';
-// import MusicPlayer from '@/components/common/MusicPlayer/index.vue';
+import { AuthModal } from '@/components';
+
+import Navbar from './Navbar/index.vue';
+import BottomNavigationBar from './BottomNavigationBar/index.vue';
+import MusicPlayer from './MusicPlayer/index.vue';
 </script>
 
 <style lang="less" scoped>
