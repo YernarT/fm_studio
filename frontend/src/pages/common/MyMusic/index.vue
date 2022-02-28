@@ -2,10 +2,7 @@
 	<div class="my-music">
 		<a-tabs default-active-key="music">
 			<a-tab-pane key="music" title="Музыкалар">
-				<div class="toolbar">
-					<p>Add, Remove</p>
-					<p>Search</p>
-				</div>
+				<Toolbar />
 
 				<a-list :bordered="false">
 					<a-list-item v-for="music in musics">
@@ -14,6 +11,8 @@
 				</a-list>
 			</a-tab-pane>
 			<a-tab-pane key="album" title="Альбумдар">
+				<Toolbar />
+
 				<a-list :bordered="false">
 					<a-list-item v-for="music in albums">
 						<MusicCard :music="music" />
@@ -21,6 +20,8 @@
 				</a-list>
 			</a-tab-pane>
 			<a-tab-pane key="favorties" title="Таңдаулар">
+				<Toolbar />
+
 				<a-list :bordered="false">
 					<a-list-item v-for="music in favorites">
 						<MusicCard :music="music" />
@@ -41,6 +42,7 @@ import { localStorage } from '@/utils';
 import { reqEdit, reqEditAvatar } from '@/api/user-api';
 import { Message } from '@arco-design/web-vue';
 import { MusicCard } from '@/components';
+import Toolbar from './ToolBar/index.vue';
 
 const breakpoints = useBreakpoints({
 	middle: 880,
