@@ -12,7 +12,8 @@ import { useEventListener } from '@vueuse/core';
 // For initialization only
 import { user, page } from '@/providers';
 import { localStorage } from '@/utils';
-import BaseLayout from '@/components/common/BaseLayout/index.vue';
+
+import { BaseLayout } from '@/components';
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us';
 
 // Provides global shared state
