@@ -2,53 +2,28 @@
 	<div class="my-music">
 		<a-tabs default-active-key="music">
 			<a-tab-pane key="music" title="Музыкалар">
+				<div class="toolbar">
+					<p>Add, Remove</p>
+					<p>Search</p>
+				</div>
+
 				<a-list :bordered="false">
 					<a-list-item v-for="music in musics">
-						<a-card hoverable :key="music.id">
-							<div class="music">
-								<img :src="music.author.avatar" alt="author" class="author" />
-								<div class="info">
-									<h1 class="name">{{ music.name }}</h1>
-									<span class="create-time">{{ music.createTime }}</span>
-								</div>
-								<icon-plus class="add-to-favorites" />
-								<icon-play-circle-fill class="play-btn" />
-							</div>
-						</a-card>
+						<MusicCard :music="music" />
 					</a-list-item>
 				</a-list>
 			</a-tab-pane>
 			<a-tab-pane key="album" title="Альбумдар">
 				<a-list :bordered="false">
 					<a-list-item v-for="music in albums">
-						<a-card hoverable :key="music.id">
-							<div class="music">
-								<img :src="music.author.avatar" alt="author" class="author" />
-								<div class="info">
-									<h1 class="name">{{ music.name }}</h1>
-									<span class="create-time">{{ music.createTime }}</span>
-								</div>
-								<icon-plus class="add-to-favorites" />
-								<icon-play-circle-fill class="play-btn" />
-							</div>
-						</a-card>
+						<MusicCard :music="music" />
 					</a-list-item>
 				</a-list>
 			</a-tab-pane>
 			<a-tab-pane key="favorties" title="Таңдаулар">
 				<a-list :bordered="false">
 					<a-list-item v-for="music in favorites">
-						<a-card hoverable :key="music.id">
-							<div class="music">
-								<img :src="music.author.avatar" alt="author" class="author" />
-								<div class="info">
-									<h1 class="name">{{ music.name }}</h1>
-									<span class="create-time">{{ music.createTime }}</span>
-								</div>
-								<icon-plus class="add-to-favorites" />
-								<icon-play-circle-fill class="play-btn" />
-							</div>
-						</a-card>
+						<MusicCard :music="music" />
 					</a-list-item>
 				</a-list>
 			</a-tab-pane>
@@ -65,6 +40,7 @@ import { useBreakpoints } from '@vueuse/core';
 import { localStorage } from '@/utils';
 import { reqEdit, reqEditAvatar } from '@/api/user-api';
 import { Message } from '@arco-design/web-vue';
+import { MusicCard } from '@/components';
 
 const breakpoints = useBreakpoints({
 	middle: 880,
